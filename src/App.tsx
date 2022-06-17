@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import ModalProvider from 'mui-modal-provider';
+import { SnackbarProvider } from 'notistack';
 
 import { withErrorHandler } from '@/error-handling';
 import AppErrorBoundaryFallback from '@/error-handling/fallbacks/App';
@@ -39,21 +40,23 @@ function App() {
 
   return (
     <Fragment>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Notifications />
-        {/* <HotKeys /> */}
-        <SW />
-        <ModalProvider>
-          <BrowserRouter>
-            <Defaultlayout>
-              <Pages />
-            </Defaultlayout>
-          </BrowserRouter>
-        </ModalProvider>
+      <SnackbarProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Notifications />
+          {/* <HotKeys /> */}
+          <SW />
+          <ModalProvider>
+            <BrowserRouter>
+              <Defaultlayout>
+                <Pages />
+              </Defaultlayout>
+            </BrowserRouter>
+          </ModalProvider>
 
-        <ToastContainer theme={themeMode} hideProgressBar />
-      </ThemeProvider>
+          <ToastContainer theme={themeMode} hideProgressBar />
+        </ThemeProvider>
+      </SnackbarProvider>
     </Fragment>
   );
 }

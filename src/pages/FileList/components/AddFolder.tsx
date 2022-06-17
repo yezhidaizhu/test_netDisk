@@ -1,10 +1,9 @@
 /**
  * @ Create Time: 2022-06-16 09:05:25
- * @ Modified time: 2022-06-17 10:59:44
+ * @ Modified time: 2022-06-17 17:02:02
  * @ Description:  新建文件夹弹窗
  */
 import { useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
 
 import { Fade, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -15,12 +14,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import { useKeyPress } from 'ahooks';
 
+import useNoti from '@/hooks/useNoti';
 import useAddFolder from '@/pages/FileList/store/useAddFolder';
 import { validateFileName } from '@/utils/helper';
 
 export default function AddFolder() {
   const { isOpen, folderName, setFolderName, resetFolderName, closeAddFolderModal } =
     useAddFolder();
+
+  const noti = useNoti();
+
   const inputRef = useRef<any>(null);
   const confirmBtnRef = useRef<any>(null);
 
@@ -36,10 +39,10 @@ export default function AddFolder() {
     const err = checkFolderName(folderName);
 
     if (err) {
-      toast.error(err);
+      noti.error(err);
     } else {
       closeAddFolderModal();
-      toast.success('创建成功');
+      noti.success('创建成功');
     }
   };
 
