@@ -1,0 +1,50 @@
+@import '@uppy/core/dist/style.css';
+@import 'react-toastify/dist/ReactToastify.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* 滚动条 */
+@media screen and (min-width: 768px) {
+  *::-webkit-scrollbar{
+    width: 12px;
+    height: 12px;
+    border: none;
+  }
+  *::-webkit-scrollbar-track {
+    @apply bg-gray-200 dark:bg-gray-600;
+    border: none;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-400;
+    border-radius: 2px;
+    border: none;
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+/* 文件拖入后的样式 */
+.uppy-is-drag-over{ 
+// #fileListBox {
+  &::after{
+    @apply bg-gray-900 opacity-80 top-0 bottom-0 right-0 left-0;
+    position: fixed;
+    z-index: 9999;
+    /* background-color: rgba(234, 234, 234, 0.5); */
+    // border: 1px dashed #bbb;
+    content: "";
+  }
+
+  // DragOver 组件
+  #dragOverContent{
+    @apply opacity-100 block;
+
+    z-index: 10000;
+  }
+}

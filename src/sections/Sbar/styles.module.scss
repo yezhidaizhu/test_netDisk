@@ -1,0 +1,23 @@
+
+.cBox{
+  @apply absolute z-10 top-0 bottom-0 w-8  flex justify-center items-center ;
+  .itemBox{
+    @apply  cursor-pointer w-full flex items-center;
+    &:hover{
+      .topen,.dclose{
+       @apply  -rotate-12;
+      }
+      .dopen,.tclose{
+       @apply  rotate-12;
+      }
+    }
+
+    .item{
+      @apply ml-2;
+      &>div{
+        @apply rounded-md h-7 w-2 bg-gray-300 dark:bg-gray-700 transition-all duration-300;
+      }
+    }
+  }
+  
+}
