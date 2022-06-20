@@ -33,7 +33,7 @@
 .uppy-is-drag-over{ 
 // #fileListBox {
   &::after{
-    @apply bg-gray-900 opacity-80 top-0 bottom-0 right-0 left-0;
+    @apply bg-gray-100 dark:bg-gray-900 opacity-80 top-0 bottom-0 right-0 left-0;
     position: fixed;
     z-index: 9999;
     /* background-color: rgba(234, 234, 234, 0.5); */

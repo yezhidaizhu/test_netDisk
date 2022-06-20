@@ -1,15 +1,11 @@
 /**
  * @ Create Time: 2022-06-15 15:25:00
- * @ Modified time: 2022-06-20 09:19:34
+ * @ Modified time: 2022-06-20 10:12:42
  * @ Description: 空文件夹
  */
 import { useEffect, useRef } from 'react';
 
-import { CloudUpload, CreateNewFolder } from '@mui/icons-material';
 import { Box, Button, ButtonGroup } from '@mui/material';
-
-import Uppy from '@uppy/core';
-import DropTarget from '@uppy/drop-target';
 
 import useAddFolder from '@/pages/FileList/store/useAddFolder';
 
@@ -17,20 +13,7 @@ import useAddActions, { addActions } from '../hooks/useAddActions';
 
 export default function EmptyFile() {
   const { onAddAction } = useAddActions();
-  const uppy = useRef<Uppy>();
-
   const { isOpen, openAddFolderModal } = useAddFolder();
-
-  useEffect(() => {
-    uppy.current = new Uppy().use(DropTarget, {
-      target: '#fileListBox',
-    });
-
-    return () => {
-      uppy.current?.close();
-    };
-  }, []);
-
   const actions = [addActions.NewFolder, addActions.UploadFile];
 
   return (

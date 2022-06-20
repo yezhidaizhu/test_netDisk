@@ -55,7 +55,7 @@ export default function HomeBreadItem() {
 
   return (
     <>
-      <div className=" rounded-3xl overflow-hidden border-gray-700 border ">
+      <div className=" rounded-3xl overflow-hidden border-blue-300 dark:border-gray-700 border ">
         <ButtonGroup variant="text" ref={anchorRef}>
           <Button startIcon={<CurIcon />} onClick={handleClick}>
             {options[selectedType].label}
@@ -65,7 +65,14 @@ export default function HomeBreadItem() {
           </Button>
         </ButtonGroup>
       </div>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+        className="z-10"
+      >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
@@ -83,7 +90,7 @@ export default function HomeBreadItem() {
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
                       <ListItemIcon>
-                        <option.Icon />
+                        <option.Icon fontSize="small" />
                       </ListItemIcon>
                       {option.label}云盘
                     </MenuItem>

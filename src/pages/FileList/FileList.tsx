@@ -9,14 +9,17 @@ import DragOver from './components/DragOver';
 import EmptyFile from './components/EmptyFile';
 import FilePath from './components/FilePath';
 import Search from './components/Search';
+import useDragUpload from './hooks/useDragUpload';
 import DataTable from './table';
 
+const boxId = 'fileListBox';
 function FileList() {
+  useDragUpload(boxId);
   const { files } = useDiskFiles();
 
   return (
     <Box
-      id="fileListBox"
+      id={boxId}
       className="flex flex-col h-screen  overflow-hidden pl-16 pb-2
       transition scale-100
       "

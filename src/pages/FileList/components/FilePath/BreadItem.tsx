@@ -22,7 +22,9 @@ export const BreadItem = memo(function (props: {
     <Typography
       {...cfg}
       variant="h6"
-      className={`cursor-pointer  active:opacity-100 ${isLast ? '' : 'hover:opacity-80 '} `}
+      className={`cursor-pointer  active:opacity-100 ${
+        isLast ? '' : 'opacity-80 hover:opacity-100 active:opacity-80 hover:underline '
+      } `}
     >
       {children ? children : label}
     </Typography>
