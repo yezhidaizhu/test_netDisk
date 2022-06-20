@@ -5,9 +5,9 @@ import useDiskFiles from '@/pages/FileList/store/useDiskFiles';
 
 import AddAction from './components/AddAction';
 import AddFolder from './components/AddFolder';
-import Bread from './components/Bread';
 import DragOver from './components/DragOver';
 import EmptyFile from './components/EmptyFile';
+import FilePath from './components/FilePath';
 import Search from './components/Search';
 import DataTable from './table';
 
@@ -22,7 +22,7 @@ function FileList() {
       "
     >
       <FlexBox className="select-none justify-between items-center pl-0 pb-0 p-8">
-        <Bread />
+        <FilePath />
         <FlexBox className=" items-center gap-6 ">
           <Search />
           <AddAction />

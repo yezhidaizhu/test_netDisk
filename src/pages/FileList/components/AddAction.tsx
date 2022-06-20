@@ -1,31 +1,18 @@
 /**
  * @ Create Time: 2022-06-13 17:38:46
- * @ Modified time: 2022-06-16 14:37:54
+ * @ Modified time: 2022-06-20 09:17:17
  * @ Description:  右上角加操作
  */
 import { useState } from 'react';
 
-import { AddCircle, ArrowCircleUp, CreateNewFolder } from '@mui/icons-material';
+import { AddCircle } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemText, Popover } from '@mui/material';
 import { Box } from '@mui/system';
 
-import useAddFolder from '@/pages/FileList/store/useAddFolder';
-
-const actions = [
-  {
-    key: 'addFolder',
-    label: '新建文件夹',
-    Icon: CreateNewFolder,
-  },
-  {
-    key: 'upload',
-    label: '上传文件',
-    Icon: ArrowCircleUp,
-  },
-];
+import useAddActions, { addActions } from '../hooks/useAddActions';
 
 export default function AddAction() {
-  const { openAddFolderModal } = useAddFolder();
+  const { onAddAction } = useAddActions();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,13 +25,7 @@ export default function AddAction() {
 
   const open = Boolean(anchorEl);
 
-  const onAddAction = (key: string) => {
-    if (key === 'addFolder') {
-      openAddFolderModal();
-    } else if (key === 'upload') {
-      console.log('upload');
-    }
-  };
+  const actions = [addActions.NewFolder, addActions.UploadFile];
 
   return (
     <>

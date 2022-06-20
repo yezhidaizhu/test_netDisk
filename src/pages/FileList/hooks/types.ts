@@ -1,5 +1,5 @@
 type FileOperationItem = {
-  key: string;
+  key: keyof FileOperationType;
   label: string;
   Icon: any;
 };
@@ -12,4 +12,15 @@ export enum FileOperationType {
   Rename = 'Rename',
 }
 
-export type { FileOperationItem };
+type AddActionItem = {
+  key: keyof AddActionType;
+  label: string;
+  Icon: any;
+};
+
+export enum AddActionType {
+  NewFolder = 'NewFolder',
+  UploadFile = 'UploadFile',
+}
+
+export type { FileOperationItem, AddActionItem };

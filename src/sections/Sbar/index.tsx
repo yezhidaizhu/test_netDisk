@@ -18,7 +18,7 @@ export const drawerWidth = 240;
 
 const labelList1 = [
   {
-    label: '文件',
+    label: '云盘',
     Icon: Save,
     path: routes[Pages.FileList].path,
   },

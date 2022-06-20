@@ -1,13 +1,13 @@
 /**
  * @ Create Time: 2022-06-16 14:47:03
- * @ Modified time: 2022-06-17 16:05:03
+ * @ Modified time: 2022-06-17 18:05:03
  * @ Description:  文件操作，包括 下载、 分享、 删除、移动，重命名
  */
 import {
+  CloudDone,
   DeleteForever,
   DriveFileMove,
   DriveFileRenameOutline,
-  FileDownload,
   Share,
 } from '@mui/icons-material';
 import { Divider } from '@mui/material';
@@ -21,7 +21,7 @@ const operations = {
   [FileOperationType.Download]: {
     key: FileOperationType.Download,
     label: '下载',
-    Icon: FileDownload,
+    Icon: CloudDone,
   },
   [FileOperationType.Share]: {
     key: FileOperationType.Share,
