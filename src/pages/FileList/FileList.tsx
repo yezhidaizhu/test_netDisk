@@ -4,10 +4,10 @@ import { FlexBox } from '@/components/styled';
 import useDiskFiles from '@/pages/FileList/store/useDiskFiles';
 
 import AddAction from './components/AddAction';
-import AddFolder from './components/AddFolder';
 import DragOver from './components/DragOver';
 import EmptyFile from './components/EmptyFile';
 import FilePath from './components/FilePath';
+import ReName from './components/ReName';
 import Search from './components/Search';
 import useDragUpload from './hooks/useDragUpload';
 import DataTable from './table';
@@ -36,9 +36,6 @@ function FileList() {
 
       {/* 拽入文件添加文件 */}
       <DragOver />
-
-      {/* 新建文件夹弹窗 */}
-      <AddFolder />
     </Box>
   );
 }

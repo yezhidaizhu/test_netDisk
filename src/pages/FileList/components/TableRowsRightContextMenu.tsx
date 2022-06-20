@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-17 14:31:16
- * @ Modified time: 2022-06-17 15:40:19
+ * @ Modified time: 2022-06-20 10:40:45
  * @ Description:  在文件列表上，文件右键菜单
  *
  * PS：右键分情况:
@@ -42,9 +42,9 @@ export default function TableRowsRightContextMenu(props: {
 
     if (curRightClickSelectedFiles.length > 1) {
       //  当前选择的文件有多个
-      return [Download, Share, Move];
+      return [Download, Share, null, Move];
     } else {
-      return [Download, Share, Move, null, Rename];
+      return [Download, Share, null, Rename, Move];
     }
   };
 

@@ -1,10 +1,10 @@
 /**
  * @ Create Time: 2022-06-16 14:47:03
- * @ Modified time: 2022-06-17 18:05:03
+ * @ Modified time: 2022-06-20 15:56:30
  * @ Description:  文件操作，包括 下载、 分享、 删除、移动，重命名
  */
 import {
-  CloudDone,
+  CloudDownload,
   DeleteForever,
   DriveFileMove,
   DriveFileRenameOutline,
@@ -12,16 +12,20 @@ import {
 } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 
+import { useModal } from 'mui-modal-provider';
+
 import useDialog from '@/hooks/useDialog';
 import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
+import MoveFile from '../components/MoveFile';
+import ReName from '../components/ReName';
 import { FileOperationItem, FileOperationType } from './types';
 
 const operations = {
   [FileOperationType.Download]: {
     key: FileOperationType.Download,
     label: '下载',
-    Icon: CloudDone,
+    Icon: CloudDownload,
   },
   [FileOperationType.Share]: {
     key: FileOperationType.Share,
@@ -47,6 +51,7 @@ const operations = {
 
 export default function useFileOperation() {
   const { warning } = useDialog();
+  const { showModal } = useModal();
 
   const onDownload = (files: FileInfo[]) => {
     console.log('onDownload => ', files);
@@ -71,10 +76,17 @@ export default function useFileOperation() {
   };
 
   const onMove = (files: FileInfo[]) => {
+    showModal(MoveFile, {});
     console.log('onMove');
   };
 
   const onRename = (files: FileInfo[]) => {
+    showModal(ReName, {
+      fileName: files[0].fileName,
+      onConfirm: (newFileName: string) => {
+        console.log('new file name:', newFileName);
+      },
+    });
     console.log('onRename');
   };
 

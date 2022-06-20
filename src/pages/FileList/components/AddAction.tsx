@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-13 17:38:46
- * @ Modified time: 2022-06-20 09:17:17
+ * @ Modified time: 2022-06-20 14:54:01
  * @ Description:  右上角加操作
  */
 import { useState } from 'react';
@@ -12,7 +12,7 @@ import { Box } from '@mui/system';
 import useAddActions, { addActions } from '../hooks/useAddActions';
 
 export default function AddAction() {
-  const { onAddAction } = useAddActions();
+  const { execAddAction } = useAddActions();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -57,7 +57,7 @@ export default function AddAction() {
                 divider={index !== actions.length - 1}
                 key={action.label}
                 disablePadding
-                onClick={() => onAddAction(action.key)}
+                onClick={() => execAddAction(action)}
               >
                 <ListItemButton>
                   <ListItemContent Icon={action.Icon} label={action.label} />

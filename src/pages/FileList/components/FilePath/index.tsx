@@ -1,12 +1,11 @@
 /**
  * @ Create Time: 2022-06-13 17:08:23
- * @ Modified time: 2022-06-20 09:34:40
+ * @ Modified time: 2022-06-20 11:55:57
  * @ Description:  文件路径
  */
-import { memo, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
-import { KeyboardArrowDown, KeyboardArrowUp, Person } from '@mui/icons-material';
-import { Breadcrumbs, IconButton, MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import { Breadcrumbs } from '@mui/material';
 
 import useFilePath, { netDiskType } from '../../store/useFilePath';
 import { BreadItem } from './BreadItem';

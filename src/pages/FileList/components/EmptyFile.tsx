@@ -1,19 +1,14 @@
 /**
  * @ Create Time: 2022-06-15 15:25:00
- * @ Modified time: 2022-06-20 10:12:42
+ * @ Modified time: 2022-06-20 14:56:14
  * @ Description: 空文件夹
  */
-import { useEffect, useRef } from 'react';
-
 import { Box, Button, ButtonGroup } from '@mui/material';
-
-import useAddFolder from '@/pages/FileList/store/useAddFolder';
 
 import useAddActions, { addActions } from '../hooks/useAddActions';
 
 export default function EmptyFile() {
-  const { onAddAction } = useAddActions();
-  const { isOpen, openAddFolderModal } = useAddFolder();
+  const { execAddAction } = useAddActions();
   const actions = [addActions.NewFolder, addActions.UploadFile];
 
   return (
@@ -22,13 +17,13 @@ export default function EmptyFile() {
         <div>将文件拖拽到这里</div>
         <div className="text-gray-500 text-sm">或者</div>
 
-        <ButtonGroup variant="outlined" disabled={isOpen}>
+        <ButtonGroup variant="outlined">
           {actions.map((action) => (
             <Button
               key={action.key}
               size="large"
               startIcon={<action.Icon />}
-              onClick={() => onAddAction(action.key)}
+              onClick={() => execAddAction(action)}
             >
               {action.label}
             </Button>

@@ -1,11 +1,11 @@
 /**
  * @ Create Time: 2022-06-15 15:32:18
- * @ Modified time: 2022-06-20 10:19:35
+ * @ Modified time: 2022-06-20 11:31:51
  * @ Description: 当前文件夹下的文件
  */
 import { atom, useRecoilState } from 'recoil';
 
-const demoData = createRow(12);
+const demoData = createDemoRow(12);
 
 const diskFilesState = atom<DiskFiles>({
   key: 'disk-files-state',
@@ -56,7 +56,7 @@ export default useDiskFiles;
 
 // 测试数据 =====================>
 
-function createRow(num: number): FileInfo[] {
+export function createDemoRow(num: number): FileInfo[] {
   const row = new Array(num);
 
   return [...row].map(() => {

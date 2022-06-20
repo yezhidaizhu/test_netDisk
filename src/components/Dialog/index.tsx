@@ -1,19 +1,12 @@
 /**
  * @ Create Time: 2022-06-17 09:34:06
- * @ Modified time: 2022-06-17 11:35:44
+ * @ Modified time: 2022-06-20 14:27:24
  * @ Description:  弹窗
  */
 import { useMemo } from 'react';
 
 import { Info, WarningAmber } from '@mui/icons-material';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grow } from '@mui/material';
 import { DialogProps } from '@mui/material/Dialog';
 
 import { CusDialogProps, CusDialogType } from './types';
@@ -73,7 +66,7 @@ export default function CusDiglog(props: DialogProps & CusDialogProps) {
   }, [type]);
 
   return (
-    <Dialog fullWidth {...dialogprops}>
+    <Dialog fullWidth TransitionComponent={Grow} {...dialogprops}>
       <DialogTitle>
         <div className="flex items-center gap-2 ">
           {Icon}

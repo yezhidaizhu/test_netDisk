@@ -1,38 +1,39 @@
 /**
- * @ Create Time: 2022-06-16 09:05:25
- * @ Modified time: 2022-06-20 16:02:09
- * @ Description:  新建文件夹弹窗
+ * @ Create Time: 2022-06-20 10:43:51
+ * @ Modified time: 2022-06-20 14:58:02
+ * @ Description:  重命名弹窗
  */
 import { useEffect, useRef, useState } from 'react';
 
-import { Grow, TextField } from '@mui/material';
-import Button from '@mui/material/Button';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grow,
+  TextField,
+} from '@mui/material';
+import { DialogProps } from '@mui/material/Dialog';
 
 import { useKeyPress } from 'ahooks';
 
 import useNoti from '@/hooks/useNoti';
-import { validateFileName } from '@/utils/helper';
 
-import { addActions } from '../hooks/useAddActions';
+import useFileOperation from '../hooks/useFileOperation';
+import { checkFolderName } from './AddFolder';
 
-export default function AddFolder(
-  props: DialogProps & { onConfirm: (newFileName: string) => void },
+export default function ReName(
+  props: DialogProps & { fileName: string; onConfirm: (newFileName: string) => void },
 ) {
-  const { onConfirm, ...dialogprops } = props;
+  const { fileName, onConfirm, ...dialogprops } = props;
 
+  const { operations } = useFileOperation();
   const noti = useNoti();
   const inputRef = useRef<any>(null);
-  const [newFolderName, setNewFolderName] = useState('新建文件夹');
+  const [newFileName, setNewFileName] = useState('');
 
-  useKeyPress('Enter', (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    _onConfirm();
-  });
+  useKeyPress('Enter', (e) => _onConfirm());
 
   const onCloseDialog = () => {
     const close = dialogprops.onClose;
@@ -40,28 +41,27 @@ export default function AddFolder(
   };
 
   const _onConfirm = async () => {
-    const err = checkFolderName(newFolderName);
+    const err = checkFolderName(newFileName);
     if (err) {
       noti.error(err);
     } else {
-      onConfirm(newFolderName);
-      noti.success('新建成功');
+      onConfirm(newFileName);
       onCloseDialog();
     }
   };
 
   const onInputChange = (e: any) => {
-    setNewFolderName(e.target.value);
+    setNewFileName(e.target.value);
   };
 
   useEffect(() => {
-    setNewFolderName(newFolderName);
+    setNewFileName(fileName);
     setTimeout(() => {
       inputRef.current?.select();
     });
   }, []);
 
-  const { label, Icon } = addActions.NewFolder;
+  const { label, Icon } = operations.Rename;
 
   return (
     <Dialog fullWidth TransitionComponent={Grow} {...dialogprops}>
@@ -72,9 +72,10 @@ export default function AddFolder(
         </div>
       </DialogTitle>
       <DialogContent>
+        <div className=" text-gray-700 dark:text-gray-300 mb-4">原文件名：{fileName}</div>
         <TextField
           inputRef={inputRef}
-          value={newFolderName}
+          value={newFileName}
           margin="dense"
           label={label}
           fullWidth
@@ -96,13 +97,4 @@ export default function AddFolder(
       </DialogActions>
     </Dialog>
   );
-}
-
-export function checkFolderName(folderName: string) {
-  const value = folderName.trim();
-  if (!value) return '名称不能为空';
-
-  if (!validateFileName(folderName)) {
-    return '文件名不支持特殊字符';
-  }
 }

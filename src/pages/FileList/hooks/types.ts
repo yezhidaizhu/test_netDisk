@@ -1,5 +1,5 @@
 type FileOperationItem = {
-  key: keyof FileOperationType;
+  key: string;
   label: string;
   Icon: any;
 };
@@ -13,7 +13,7 @@ export enum FileOperationType {
 }
 
 type AddActionItem = {
-  key: keyof AddActionType;
+  key: string;
   label: string;
   Icon: any;
 };
