@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 
+import Meta from '@/components/Meta';
 import { FlexBox } from '@/components/styled';
 import useDiskFiles from '@/pages/FileList/store/useDiskFiles';
 
@@ -18,25 +19,29 @@ function FileList() {
   const { files } = useDiskFiles();
 
   return (
-    <Box
-      id={boxId}
-      className="flex flex-col h-screen  overflow-hidden pl-16 pb-2
+    <>
+      <Meta title="云盘" />
+
+      <Box
+        id={boxId}
+        className="flex flex-col h-screen  overflow-hidden pl-16 pb-2
       transition scale-100
       "
-    >
-      <FlexBox className="select-none justify-between items-center pl-0 pb-0 p-8">
-        <FilePath />
-        <FlexBox className=" items-center gap-6 ">
-          <Search />
-          <AddAction />
+      >
+        <FlexBox className="select-none justify-between items-center pl-0 pb-0 p-8">
+          <FilePath />
+          <FlexBox className=" items-center gap-6 ">
+            <Search />
+            <AddAction />
+          </FlexBox>
         </FlexBox>
-      </FlexBox>
 
-      {files.length ? <DataTable /> : <EmptyFile />}
+        {files.length ? <DataTable /> : <EmptyFile />}
 
-      {/* 拽入文件添加文件 */}
-      <DragOver />
-    </Box>
+        {/* 拽入文件添加文件 */}
+        <DragOver />
+      </Box>
+    </>
   );
 }
 
