@@ -5,6 +5,7 @@ import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import dayjs from 'dayjs';
 import filesize from 'filesize';
 
+import FileIcon from '@/components/FileIcon';
 import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
 import TableRowsRightContextMenu from '../components/TableRowsRightContextMenu';
@@ -92,7 +93,7 @@ function FileName(props: { name: string }) {
   const { name } = props;
   return (
     <div className="flex items-center gap-2 cursor-pointer select-none">
-      <img src={imgIcon} className=" w-8 " />
+      <FileIcon fileName={name} />
       {name}
     </div>
   );

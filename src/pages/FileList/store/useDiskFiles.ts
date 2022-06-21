@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-15 15:32:18
- * @ Modified time: 2022-06-20 11:31:51
+ * @ Modified time: 2022-06-21 18:08:50
  * @ Description: 当前文件夹下的文件
  */
 import { atom, useRecoilState } from 'recoil';
@@ -62,7 +62,7 @@ export function createDemoRow(num: number): FileInfo[] {
   return [...row].map(() => {
     return {
       id: randomString(6),
-      fileName: randomString(Math.floor(Math.random() * 30)),
+      fileName: randomString(Math.floor(Math.random() * 30)) + '.' + randomExt(),
       size: Math.random() * 10000,
       modifyTime: randomDate(),
     };
@@ -82,4 +82,32 @@ function randomDate() {
   const time = new Date().getTime();
 
   return time - Math.floor(Math.random() * 10000);
+}
+
+// 随机文件后缀名
+function randomExt() {
+  const ext = [
+    'html',
+    'css',
+    'json',
+    'png',
+    'js',
+    'pdf',
+    'zip',
+    'exe',
+    'sh',
+    'doc',
+    'ttf',
+    'ppt',
+    'xls',
+    'mp4',
+    'mp3',
+    'txt',
+    'apk',
+    'log',
+    'svg',
+    '',
+  ];
+  const randomIndex = Math.floor(Math.random() * ext.length);
+  return ext[randomIndex];
 }
