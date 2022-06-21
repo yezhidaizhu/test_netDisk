@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-14 17:36:45
- * @ Modified time: 2022-06-20 16:44:37
+ * @ Modified time: 2022-06-21 11:57:18
  * @ Description:  选择文件后，下方弹出的文件操作
  */
 import { useMemo, useRef, useState } from 'react';
@@ -46,8 +46,8 @@ export default function FileOperation(props: { numSelected: number; clearSelecte
       absolute m-auto left-0 right-0 
       w-fit rounded p-2 py-1.5
       flex justify-center items-center gap-2
-      ring-1 ring-slate-200 dark:ring-gray-600
-      bg-gray-900 dark:bg-gray-800 
+      ring-1 ring-slate-100 dark:ring-gray-600 shadow-md
+      bg-gray-50 dark:bg-gray-800 
       transition-all opacity-0
         ${numSelected ? 'bottom-16 opacity-100' : '-bottom-6'}
       `}
@@ -68,7 +68,7 @@ export default function FileOperation(props: { numSelected: number; clearSelecte
 
       <OperationIcon Icon={Cancel} onClick={clearSelected} title="取消" />
 
-      {foldOperations.length && (
+      {!!foldOperations.length && (
         <MoreOparetion
           open={openMore}
           onClose={() => setOpenMore(false)}
@@ -91,7 +91,7 @@ function OperationIcon(props: { Icon: any; title?: string; onClick?: () => void 
       <IconButton onClick={() => onClick?.()}>
         <Icon
           fontSize="small"
-          className="opacity-80 hover:opacity-100 cursor-pointer text-gray-100"
+          className="opacity-80 hover:opacity-100 cursor-pointer text-gray-600 dark:text-gray-100"
         />
       </IconButton>
     </Tooltip>

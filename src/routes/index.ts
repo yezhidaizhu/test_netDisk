@@ -12,7 +12,13 @@ const routes: Routes = {
   [Pages.FileList]: {
     component: asyncComponentLoader(() => import('@/pages/FileList')),
     path: '/file-list',
-    title: 'FileList',
+    title: '云盘',
+    icon: HomeIcon,
+  },
+  [Pages.Transfer]: {
+    component: asyncComponentLoader(() => import('@/pages/Transfer')),
+    path: '/transfer',
+    title: '传输列表',
     icon: HomeIcon,
   },
   [Pages.Page1]: {

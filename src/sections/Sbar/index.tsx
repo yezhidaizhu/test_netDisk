@@ -25,7 +25,7 @@ const labelList1 = [
   {
     label: '文件传输',
     Icon: CompareArrows,
-    path: routes[Pages.Page2].path,
+    path: routes[Pages.Transfer].path,
   },
 ];
 
