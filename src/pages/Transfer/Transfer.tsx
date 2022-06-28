@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 import { CheckCircleOutline, CloudDownload, CloudUpload } from '@mui/icons-material';
-import { Box, Fade, Grow, Tab, Tabs } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Box, Tab, Tabs } from '@mui/material';
 
 import Meta from '@/components/Meta';
-import { FlexBox, FullSizeCenteredFlexBox } from '@/components/styled';
 
 import TabPanel from './components/TabPanel';
+import DownloadTab from './downloadTab';
+import UploadTab from './uploadTab';
 
 const tabs = [
   {
@@ -47,15 +47,22 @@ function Transfer() {
             {tabs.map((tab) => (
               <Tab
                 key={tab.key}
-                icon={<tab.Icon fontSize="small" />}
-                iconPosition="start"
-                label={tab.label}
-              />
+                label={
+                  <div className="flex gap-2 items-center">
+                    <tab.Icon fontSize="small" />
+                    {tab.label}
+                  </div>
+                }
+              ></Tab>
             ))}
           </Tabs>
         </Box>
-        <TabPanel show={curTab === 0}>Item 1</TabPanel>
-        <TabPanel show={curTab === 1}>Item Two</TabPanel>
+        <TabPanel show={curTab === 0}>
+          <UploadTab />
+        </TabPanel>
+        <TabPanel show={curTab === 1}>
+          <DownloadTab />
+        </TabPanel>
         <TabPanel show={curTab === 2}>Item Three</TabPanel>
       </Box>
     </>
