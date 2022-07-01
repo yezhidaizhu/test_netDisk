@@ -11,7 +11,7 @@ import { Pages, Routes } from './types';
 const routes: Routes = {
   [Pages.FileList]: {
     component: asyncComponentLoader(() => import('@/pages/FileList')),
-    path: '/file-list',
+    path: '/',
     title: '云盘',
     icon: HomeIcon,
   },
