@@ -24,3 +24,10 @@ export default function getFileIcon(fileName: string) {
 export function getFileExt(fileName: string) {
   return fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2);
 }
+
+/**
+ * 获取文件目录图标
+ */
+export function getFolderIcon() {
+  return icons.folder;
+}

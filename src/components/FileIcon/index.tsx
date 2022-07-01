@@ -1,21 +1,26 @@
 /**
  * @ Create Time: 2022-06-21 17:07:01
- * @ Modified time: 2022-06-21 18:16:30
+ * @ Modified time: 2022-07-01 16:07:28
  * @ Description:  文件图标
  */
-import { ImgHTMLAttributes, memo, useEffect, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
-import getFileIcon from '@/utils/fileIcon';
-import fileIcons from '@/utils/fileIcon/fileIcons';
+import getFileIcon, { getFolderIcon } from '@/utils/fileIcon';
 
-function _FileIcon(props: { fileName?: string; className?: string }) {
-  const { fileName = '', className = '', ...otherProps } = props;
+/**
+ *
+ * @param props fileName: 文件名， isFolder: 是否为文件夹
+ * @returns
+ */
+function _FileIcon(props: { fileName?: string; className?: string; isFolder?: boolean }) {
+  const { fileName = '', className = '', isFolder = false, ...otherProps } = props;
 
   const fileIconSrc = useMemo(() => {
+    if (isFolder) return getFolderIcon();
     return getFileIcon(fileName);
-  }, [fileName]);
+  }, [fileName, isFolder]);
 
-  return <img src={fileIconSrc} className={`w-8 ${className}`} {...otherProps} />;
+  return <img src={fileIconSrc} draggable={false} className={`w-8 ${className}`} {...otherProps} />;
 }
 
 const FileIcon = memo(_FileIcon);

@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-21 17:42:09
- * @ Modified time: 2022-06-21 17:56:36
+ * @ Modified time: 2022-07-01 16:19:02
  * @ Description:  图标映射
  */
 import android from './icons/android.svg';
@@ -10,6 +10,7 @@ import css from './icons/css.svg';
 import document from './icons/document.svg';
 import exe from './icons/exe.svg';
 import file from './icons/file.svg';
+import folder from './icons/folder-resource.svg';
 import font from './icons/font.svg';
 import html from './icons/html.svg';
 import image from './icons/image.svg';
@@ -45,4 +46,6 @@ export default {
   log,
   svg,
   file,
+
+  folder,
 };
