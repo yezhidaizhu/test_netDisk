@@ -15,7 +15,7 @@ export default function DataTabel() {
 
   return (
     <Box className="pt-8 flex-1 overflow-hidden flex flex-col">
-      <Toolbar rowCount={rowCount} numSelected={selected.length} />
+      {/* <Toolbar rowCount={rowCount} numSelected={selected.length} /> */}
 
       <div className="flex-1 overflow-auto">
         <TableContainer className=" max-h-full  pr-8">

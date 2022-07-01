@@ -38,7 +38,7 @@ const labelList2 = [
 ];
 
 export default function PersistentDrawerLeft() {
-  const [isSidebarOpen, sidebarActions] = useSidebar();
+  const [isSidebarOpen] = useSidebar();
 
   const location = useLocation();
 
@@ -58,13 +58,9 @@ export default function PersistentDrawerLeft() {
       className="text-gray-500"
     >
       <Box className="p-2">
-        <List>
-          <SideList list={labelList1} curPath={location.pathname} />
-        </List>
+        <SideList list={labelList1} curPath={location.pathname} />
         <Divider />
-        <List>
-          <SideList list={labelList2} curPath={location.pathname} />
-        </List>
+        <SideList list={labelList2} curPath={location.pathname} />
       </Box>
     </Drawer>
   );
@@ -74,7 +70,7 @@ function SideList(props: { list: { label: string; path: string; Icon?: any }[]; 
   const { list = [], curPath } = props;
 
   return (
-    <List>
+    <List dense>
       {list.map((item, index) => (
         <ListItem
           key={item.label}
