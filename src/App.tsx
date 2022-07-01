@@ -1,5 +1,5 @@
 import { Fragment, useMemo } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -47,11 +47,11 @@ function App() {
           {/* <HotKeys /> */}
           <SW />
           <ModalProvider>
-            <BrowserRouter>
+            <HashRouter>
               <Defaultlayout>
                 <Pages />
               </Defaultlayout>
-            </BrowserRouter>
+            </HashRouter>
           </ModalProvider>
 
           <ToastContainer theme={themeMode} hideProgressBar />
