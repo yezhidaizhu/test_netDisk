@@ -24,7 +24,7 @@ function FileList() {
 
       <Box
         id={boxId}
-        className="flex flex-col h-screen  overflow-hidden pl-16 pb-2
+        className="flex flex-col h-screen  overflow-hidden pl-16 
       transition scale-100
       "
       >

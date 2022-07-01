@@ -6,7 +6,7 @@ import FileOperation from '../components/FileOperation';
 import useTable from '../hooks/useTable';
 import TBody from './TBody';
 import THead from './THead';
-import Toolbar from './Toolbar';
+import Toolbar, { toolbarHeight } from './Toolbar';
 
 export default function DataTabel() {
   const { files, selected, onSelAll, onCheckBoxClick, onRowClick, clearSelected } = useTable();
@@ -14,10 +14,10 @@ export default function DataTabel() {
   const rowCount = useMemo(() => files.length, [files]);
 
   return (
-    <Box className="pt-8 flex-1 overflow-hidden flex flex-col">
+    <Box className="pt-6 flex-1 overflow-hidden flex flex-col">
       {/* <Toolbar rowCount={rowCount} numSelected={selected.length} /> */}
 
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto" style={{ paddingBottom: toolbarHeight + 1 }}>
         <TableContainer className=" max-h-full  pr-8">
           <Table size="small" stickyHeader sx={{ minWidth: 750 }}>
             <THead rowCount={rowCount} numSelected={selected.length} onSelAll={onSelAll} />
@@ -32,6 +32,8 @@ export default function DataTabel() {
           <div className="h-16"></div>
         </TableContainer>
       </div>
+
+      <Toolbar rowCount={rowCount} numSelected={selected.length} />
 
       {/* 下方弹出文件操作 */}
       <FileOperation numSelected={selected.length} clearSelected={clearSelected} />
