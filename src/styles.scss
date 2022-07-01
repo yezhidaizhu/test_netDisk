@@ -7,26 +7,24 @@
 
 
 /* 滚动条 */
-@media screen and (min-width: 768px) {
-  *::-webkit-scrollbar{
-    width: 6px;
-    height: 6px;
-    border: none;
-  }
-  *::-webkit-scrollbar-track {
-    @apply bg-gray-200 dark:bg-gray-600;
-    border: none;
-  }
+*::-webkit-scrollbar{
+  width: 6px;
+  height: 6px;
+  border: none;
+}
+*::-webkit-scrollbar-track {
+  @apply bg-gray-200 dark:bg-gray-600;
+  border: none;
+}
 
-  *::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-400;
-    border-radius: 2px;
-    border: none;
-  }
+*::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-400;
+  border-radius: 2px;
+  border: none;
+}
 
-  *::-webkit-scrollbar-corner {
-    background: transparent;
-  }
+*::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* 文件拖入后的样式 */
