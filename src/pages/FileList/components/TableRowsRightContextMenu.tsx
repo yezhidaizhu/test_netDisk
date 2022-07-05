@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-17 14:31:16
- * @ Modified time: 2022-06-20 10:40:45
+ * @ Modified time: 2022-07-04 17:57:43
  * @ Description:  在文件列表上，文件右键菜单
  *
  * PS：右键分情况:
@@ -94,7 +94,7 @@ export default function TableRowsRightContextMenu(props: {
   );
 }
 
-function MItem(props: { label: string; Icon: any; onClick: () => void }) {
+export function MItem(props: { label: string; Icon: any; onClick: () => void }) {
   const { label, Icon, onClick } = props;
 
   return (
