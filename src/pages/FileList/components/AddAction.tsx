@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-13 17:38:46
- * @ Modified time: 2022-06-20 14:54:01
+ * @ Modified time: 2022-07-05 14:27:26
  * @ Description:  右上角加操作
  */
 import { useState } from 'react';
@@ -48,6 +48,7 @@ export default function AddAction() {
           vertical: 'top',
           horizontal: 'right',
         }}
+        keepMounted
       >
         <Box className="p-2">
           <List disablePadding onClick={handleClose}>
@@ -55,12 +56,12 @@ export default function AddAction() {
               <ListItem
                 dense
                 divider={index !== actions.length - 1}
-                key={action.label}
+                key={action.key}
                 disablePadding
                 onClick={() => execAddAction(action)}
               >
                 <ListItemButton>
-                  <ListItemContent Icon={action.Icon} label={action.label} />
+                  <ListItemContent id={action.key} Icon={action.Icon} label={action.label} />
                 </ListItemButton>
               </ListItem>
             ))}
@@ -71,12 +72,12 @@ export default function AddAction() {
   );
 }
 
-function ListItemContent(props: { label: string; Icon: any }) {
-  const { label = '', Icon } = props;
+function ListItemContent(props: { label: string; Icon: any; id: string }) {
+  const { label = '', id = '', Icon } = props;
 
   return (
     <ListItemText>
-      <div className="flex gap-2 items-center w-28">
+      <div className="flex gap-2 items-center w-28" id={id}>
         <Icon fontSize="small" /> {label}
       </div>
     </ListItemText>

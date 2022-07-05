@@ -1,4 +1,6 @@
 @import '@uppy/core/dist/style.css';
+@import '@uppy/dashboard/dist/style.css';
+
 @import 'react-toastify/dist/ReactToastify.css';
 
 @tailwind base;
@@ -45,4 +47,12 @@
 
     z-index: 10000;
   }
+}
+
+// 上传文件
+.uppy-Dashboard--modal .uppy-Dashboard-overlay{
+  z-index: 1299;
+}
+.uppy-Dashboard--modal,.uppy-Dashboard--modal .uppy-Dashboard-inner  {
+  z-index: 1300;
 }

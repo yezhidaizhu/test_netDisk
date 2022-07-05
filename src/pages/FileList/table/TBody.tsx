@@ -42,7 +42,7 @@ export default function TBody(props: {
         }}
       >
         {data.map((fileItem) => {
-          const { id, fileName, modifyTime, size } = fileItem;
+          const { id, fileName, modifyTime, size, thumb } = fileItem;
           const isItemSel = isSelected(id);
 
           return (
@@ -70,7 +70,7 @@ export default function TBody(props: {
                 <Checkbox color="primary" checked={isItemSel} size="small" />
               </TableCell>
               <TableCell>
-                <FileName name={fileName} />
+                <FileName name={fileName} thumb={thumb} />
               </TableCell>
               <TableCell>
                 <SecLabel label={dayjs(modifyTime).format('YYYY/MM/DD hh:mm')} />
@@ -89,17 +89,21 @@ export default function TBody(props: {
 }
 
 // 文件名
-function FileName(props: { name: string }) {
-  const { name } = props;
+function FileName(props: { name: string; thumb?: string }) {
+  const { name, thumb } = props;
   return (
     <div className="flex items-center gap-2 cursor-pointer select-none">
-      <FileIcon fileName={name} />
-      {name}
+      {thumb ? <img src={thumb} className="w-8 h-8 object-cover " /> : <FileIcon fileName={name} />}
+      <div className="truncate flex-1 w-0">{name}</div>
     </div>
   );
 }
 
 // 修改日期/文件大小 文字样式
 function SecLabel(props: { label: string }) {
-  return <span className="opacity-60 text-sm hover:opacity-100 cursor-pointer">{props.label}</span>;
+  return (
+    <span className="opacity-60 truncate text-sm hover:opacity-100 cursor-pointer">
+      {props.label}
+    </span>
+  );
 }

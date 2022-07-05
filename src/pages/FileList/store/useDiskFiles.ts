@@ -1,15 +1,24 @@
 /**
  * @ Create Time: 2022-06-15 15:32:18
- * @ Modified time: 2022-06-21 18:08:50
+ * @ Modified time: 2022-07-05 16:06:49
  * @ Description: 当前文件夹下的文件
  */
 import { atom, useRecoilState } from 'recoil';
 
-const demoData = createDemoRow(12);
+import { useRequest } from 'ahooks';
+
+import { queryList } from '@/api';
+
+// const demoData = createDemoRow(12);
+
+const diskSourceFilesState = atom<{ [x: string]: any }[]>({
+  key: 'disk-source-files-state',
+  default: [],
+});
 
 const diskFilesState = atom<DiskFiles>({
   key: 'disk-files-state',
-  default: demoData,
+  default: [],
 });
 
 const diskFilesSelectedState = atom<DiskFilesSelected>({
@@ -18,8 +27,28 @@ const diskFilesSelectedState = atom<DiskFilesSelected>({
 });
 
 function useDiskFiles() {
-  const [files, setFiles] = useRecoilState(diskFilesState); // 当前文件列表
+  const [sourceFiles, setSourceFiles] = useRecoilState(diskSourceFilesState); // 源请求文件列表，未格式化
+  const [files, setFiles] = useRecoilState(diskFilesState); // 当前文件列表，格式化
   const [selected, setSelected] = useRecoilState(diskFilesSelectedState); // 当前选择的文件，只保存id
+
+  // 获取文件
+  const getFileListAction = useRequest(
+    async (
+      queryListParamType: QueryListParamType = {
+        folderId: 0,
+        isPublic: 0,
+        sortField: '',
+        isFolder: 0,
+      },
+    ) => {
+      const { data } = await queryList(queryListParamType);
+      if (data.result === 0) {
+        setSourceFiles(data.list);
+        setFiles(formatData(data.list));
+      }
+    },
+    { manual: true },
+  );
 
   const clearSelected = () => {
     setSelected([]);
@@ -43,8 +72,10 @@ function useDiskFiles() {
   };
 
   return {
+    sourceFiles,
     files,
     selected,
+    getFileListAction,
     setSelected,
     clearSelected,
     getSelectedFiles,
@@ -110,4 +141,24 @@ function randomExt() {
   ];
   const randomIndex = Math.floor(Math.random() * ext.length);
   return ext[randomIndex];
+}
+
+/**
+ * 格式化文件列表
+ * @param list 请求获取的文件列表
+ */
+function formatData(list: any[] = []) {
+  const ret = list.map((fileItem) => {
+    const { id, name, size, time, ypaImg = '' } = fileItem;
+
+    return {
+      id,
+      fileName: name,
+      size,
+      modifyTime: time,
+      thumb: ypaImg ? `${window.EAP}${ypaImg}` : '',
+    };
+  });
+
+  return ret;
 }

@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 09:00:41
- * @ Modified time: 2022-06-20 15:57:03
+ * @ Modified time: 2022-07-05 15:55:36
  * @ Description:  增加操作，包括 新建文件夹，上传文件
  */
 import { CloudUpload, CreateNewFolder } from '@mui/icons-material';
@@ -42,8 +42,11 @@ export default function useAddActions() {
     });
   };
 
+  /**
+   * 上传文件
+   */
   const onUploadFile = () => {
-    console.log('onUploadFile');
+    document.getElementById(AddActionType.UploadFile)?.querySelector('button')?.click();
   };
 
   const execAddAction = (addActionItem: AddActionItem) => {

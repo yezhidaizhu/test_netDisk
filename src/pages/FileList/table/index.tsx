@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Box, Table, TableContainer } from '@mui/material';
+import { Box, Fade, Table, TableContainer } from '@mui/material';
 
 import FileOperation from '../components/FileOperation';
 import useTable from '../hooks/useTable';
@@ -15,22 +15,22 @@ export default function DataTabel() {
 
   return (
     <Box className="pt-6 flex-1 overflow-hidden flex flex-col">
-      {/* <Toolbar rowCount={rowCount} numSelected={selected.length} /> */}
-
       <div className="flex-1 overflow-auto" style={{ paddingBottom: toolbarHeight + 1 }}>
-        <TableContainer className=" max-h-full  pr-8">
-          <Table size="small" stickyHeader sx={{ minWidth: 750 }}>
-            <THead rowCount={rowCount} numSelected={selected.length} onSelAll={onSelAll} />
-            <TBody
-              data={files}
-              selected={selected}
-              onCheckBoxClick={onCheckBoxClick}
-              onRowClick={onRowClick}
-            />
-          </Table>
+        <Fade in={!!files.length}>
+          <TableContainer className=" max-h-full  pr-8">
+            <Table size="small" stickyHeader sx={{ minWidth: 750 }}>
+              <THead rowCount={rowCount} numSelected={selected.length} onSelAll={onSelAll} />
+              <TBody
+                data={files}
+                selected={selected}
+                onCheckBoxClick={onCheckBoxClick}
+                onRowClick={onRowClick}
+              />
+            </Table>
 
-          <div className="h-16"></div>
-        </TableContainer>
+            <div className="h-16"></div>
+          </TableContainer>
+        </Fade>
       </div>
 
       <Toolbar rowCount={rowCount} numSelected={selected.length} />

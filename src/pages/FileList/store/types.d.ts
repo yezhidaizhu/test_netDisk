@@ -9,6 +9,8 @@ interface FileInfo {
   fileName: string;
   size: number;
   modifyTime: any;
+
+  thumb?: string; // 文件缩略图
 }
 
 type DiskFiles = FileInfo[];

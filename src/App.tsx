@@ -18,25 +18,14 @@ import Main from '@/sections/Main';
 import Notifications from '@/sections/Notifications';
 import SW from '@/sections/SW';
 
+import useThemeMode from './hooks/useThemeMode';
 import Defaultlayout from './sections/Layout';
 import './styles.scss';
 
 function App() {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const { mode } = useThemeMode();
 
-  const themeMode = useMemo(() => {
-    return prefersDarkMode ? 'dark' : 'light';
-  }, [prefersDarkMode]);
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: themeMode,
-        },
-      }),
-    [themeMode],
-  );
+  const theme = useMemo(() => createTheme({ palette: { mode } }), [mode]);
 
   return (
     <Fragment>
@@ -54,7 +43,7 @@ function App() {
             </HashRouter>
           </ModalProvider>
 
-          <ToastContainer theme={themeMode} hideProgressBar />
+          <ToastContainer theme={mode} hideProgressBar />
         </ThemeProvider>
       </SnackbarProvider>
     </Fragment>
