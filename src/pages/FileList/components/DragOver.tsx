@@ -1,22 +1,31 @@
 /**
  * @ Create Time: 2022-06-15 17:36:33
- * @ Modified time: 2022-06-20 10:32:48
+ * @ Modified time: 2022-07-05 18:47:18
  * @ Description:  文件拖入后，上面的内容，拽入后的背景在 style.scss 全局样式中
  */
+import { useMemo } from 'react';
+
 import { Upload } from '@mui/icons-material';
 
 import { drawerWidth } from '@/sections/Sbar';
 import useSidebar from '@/store/sidebar';
 
-import useFilePath from '../store/useFilePath';
+import useFilePath, { netDiskType } from '../store/useFilePath';
 
 export default function DragOver() {
-  const { filePath } = useFilePath();
+  const { filePath, isMineNetDisk } = useFilePath();
   const [isOpen] = useSidebar();
 
   const size = isOpen ? `calc(60vw - ${drawerWidth}px)` : `60vw`;
 
-  const curFolder = filePath[filePath.length - 1].label;
+  const curFolder = useMemo(() => {
+    if (!filePath.length) {
+      const label = isMineNetDisk ? netDiskType.Mine.label : netDiskType.Common.label;
+      return `${label}云盘 根目录`;
+    } else {
+      return filePath[filePath.length - 1].label;
+    }
+  }, []);
 
   return (
     <div id="dragOverContent" className="fixed hidden bottom-0 top-0 right-0 left-0 opacity-0">

@@ -9,7 +9,15 @@ import THead from './THead';
 import Toolbar, { toolbarHeight } from './Toolbar';
 
 export default function DataTabel() {
-  const { files, selected, onSelAll, onCheckBoxClick, onRowClick, clearSelected } = useTable();
+  const {
+    files,
+    selected,
+    onSelAll,
+    onCheckBoxClick,
+    onRowClick,
+    onRowDoubleClick,
+    clearSelected,
+  } = useTable();
 
   const rowCount = useMemo(() => files.length, [files]);
 
@@ -25,6 +33,7 @@ export default function DataTabel() {
                 selected={selected}
                 onCheckBoxClick={onCheckBoxClick}
                 onRowClick={onRowClick}
+                onRowDoubleClick={onRowDoubleClick}
               />
             </Table>
 
@@ -32,8 +41,6 @@ export default function DataTabel() {
           </TableContainer>
         </Fade>
       </div>
-
-      <Toolbar rowCount={rowCount} numSelected={selected.length} />
 
       {/* 下方弹出文件操作 */}
       <FileOperation numSelected={selected.length} clearSelected={clearSelected} />

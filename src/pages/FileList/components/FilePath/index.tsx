@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-13 17:08:23
- * @ Modified time: 2022-06-20 11:55:57
+ * @ Modified time: 2022-07-06 09:57:04
  * @ Description:  文件路径
  */
 import { useMemo } from 'react';
@@ -12,7 +12,7 @@ import { BreadItem } from './BreadItem';
 import HomeBreadItem from './HomeBreadItem';
 
 export default function FilePath() {
-  const { filePath } = useFilePath();
+  const { filePath, arrivePath } = useFilePath();
 
   const filePathLen = useMemo(() => filePath.length, [filePath]);
 
@@ -21,7 +21,14 @@ export default function FilePath() {
       <HomeBreadItem />
 
       {filePath.map((link, index) => (
-        <BreadItem key={index} label={link.label} isLast={index === filePathLen - 1} />
+        <BreadItem
+          key={index}
+          label={link.label}
+          isLast={index === filePathLen - 1}
+          onClick={() => {
+            arrivePath(link);
+          }}
+        />
       ))}
     </Breadcrumbs>
   );

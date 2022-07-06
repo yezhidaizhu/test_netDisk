@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-15 15:32:18
- * @ Modified time: 2022-06-20 10:00:49
+ * @ Modified time: 2022-07-06 11:12:40
  * @ Description: 当前文件夹路劲
  */
 import { atom, useRecoilState } from 'recoil';
@@ -11,40 +11,83 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-const demoLinks = [
-  {
-    label: 'temp',
+export const netDiskType = {
+  Mine: {
+    label: '我的',
+    Icon: Person,
+    folderId: 0,
   },
-  {
-    label: '测试',
+  Common: {
+    label: '公共',
+    Icon: Public,
+    folderId: 0,
   },
-];
+};
 
 const isMineNetDiskState = atom<boolean>({
   key: 'is-mine-net-disk-state',
-  default: false,
+  default: true,
   effects_UNSTABLE: [persistAtom],
 });
 
-const diskFilePathState = atom<{ label: string }[]>({
+const diskFilePathState = atom<filePathItemType[]>({
   key: 'file-path-state',
-  default: demoLinks,
+  default: [],
 });
 
 export default function useFilePath() {
   const [isMineNetDisk, setIsMineNetDisk] = useRecoilState(isMineNetDiskState); // 当前文件路径
   const [filePath, setFilePath] = useRecoilState(diskFilePathState); // 当前文件路径
 
-  return { filePath, setFilePath, isMineNetDisk, setIsMineNetDisk };
-}
+  // 增加路径
+  const addPath = (item: filePathItemType) => {
+    setFilePath((filePath) => [...filePath, item]);
+  };
 
-export const netDiskType = {
-  Mine: {
-    label: '我的',
-    Icon: Person,
-  },
-  Common: {
-    label: '公共',
-    Icon: Public,
-  },
-};
+  /**
+   * 返回到指定路径
+   * @param item 路径对象 filePathItemType， 可以为空，为空则回到根目录
+   * @returns
+   */
+  const arrivePath = (item?: filePathItemType) => {
+    if (!item) {
+      setFilePath([]);
+      return;
+    }
+    const curFolderId = item.folderId;
+    const fIndex = filePath.findIndex((item) => item.folderId === curFolderId);
+
+    if (fIndex === -1) return;
+
+    const newFilePath = [...filePath].splice(0, fIndex + 1);
+    setFilePath(newFilePath);
+  };
+
+  // 改变云盘类型，我的/公共
+  const setDiskType = (isMine: boolean = false) => {
+    if (isMine !== isMineNetDisk) {
+      // 发生改变则重置
+      setIsMineNetDisk(isMine);
+      setFilePath([]);
+    }
+  };
+
+  // 获取当前文件id，即 FolderId
+  const getCurFolderId = () => {
+    if (filePath.length === 0) {
+      return 0;
+    } else {
+      return filePath[filePath.length - 1].folderId;
+    }
+  };
+
+  return {
+    filePath,
+    isMineNetDisk,
+    setFilePath,
+    setDiskType,
+    addPath,
+    arrivePath,
+    getCurFolderId,
+  };
+}

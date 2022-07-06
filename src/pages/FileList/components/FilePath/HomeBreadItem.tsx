@@ -14,7 +14,7 @@ import Popper from '@mui/material/Popper';
 import useFilePath, { netDiskType } from '../../store/useFilePath';
 
 export default function HomeBreadItem() {
-  const { isMineNetDisk, setIsMineNetDisk } = useFilePath();
+  const { isMineNetDisk, setDiskType, arrivePath } = useFilePath();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedType, setSelectedType] = useState(0);
@@ -22,6 +22,7 @@ export default function HomeBreadItem() {
   const options = [netDiskType.Mine, netDiskType.Common];
 
   const handleClick = () => {
+    arrivePath();
     console.info(`You clicked ${options[selectedType]}`);
   };
 
@@ -30,7 +31,9 @@ export default function HomeBreadItem() {
     index: number,
   ) => {
     setSelectedType(index);
-    setIsMineNetDisk(index === 0);
+
+    const isMine = index === 0;
+    setDiskType(isMine);
 
     setOpen(false);
   };
@@ -55,10 +58,14 @@ export default function HomeBreadItem() {
 
   return (
     <>
-      <div className=" rounded-3xl overflow-hidden border-blue-300 dark:border-gray-700 border ">
-        <ButtonGroup variant="text" ref={anchorRef}>
-          <Button startIcon={<CurIcon />} onClick={handleClick}>
-            {options[selectedType].label}
+      <div className=" rounded-xl overflow-hidden border-blue-300 dark:border-gray-700 border ">
+        <ButtonGroup variant="text" size="small" ref={anchorRef}>
+          <Button onClick={handleClick}>
+            <div className="flex items-center gap-2 px-2">
+              <CurIcon fontSize="small" />
+
+              <span className="font-semibold text-lg">{options[selectedType].label}</span>
+            </div>
           </Button>
           <Button onClick={handleToggle}>
             <ArrowDropDownIcon />

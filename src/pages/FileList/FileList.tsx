@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -12,17 +12,40 @@ import DragOver from './components/DragOver';
 import EmptyFile from './components/EmptyFile';
 import FilePath from './components/FilePath';
 import Search from './components/Search';
+import useQueryList from './hooks/req/useQueryList';
 import useDragUpload from './hooks/useDragUpload';
+import useFilePath from './store/useFilePath';
 import DataTable from './table';
+import Toolbar from './table/Toolbar';
 
 const boxId = 'fileListBox';
 function FileList() {
   useDragUpload(boxId);
-  const { files, getFileListAction } = useDiskFiles();
+  const { files, clearSelected, selected, setFiles, setSourceFiles } = useDiskFiles();
+  const { queryListAction } = useQueryList();
+  const { isMineNetDisk, filePath } = useFilePath();
+  const { run, loading } = queryListAction;
 
+  const rowCount = useMemo(() => files.length, [files]);
+
+  const onChangeFilePath = () => {
+    clearSelected();
+    run();
+  };
+
+  // 路径发生改变
   useEffect(() => {
-    getFileListAction.run();
-  }, []);
+    onChangeFilePath();
+  }, [isMineNetDisk, filePath]);
+
+  // 返回数据
+  useEffect(() => {
+    const data = queryListAction.data;
+    if (data?.list) {
+      setFiles(data.list);
+      setSourceFiles(data.source);
+    }
+  }, [queryListAction.data]);
 
   return (
     <>
@@ -42,15 +65,17 @@ function FileList() {
           </FlexBox>
         </FlexBox>
 
-        {!!files.length && !getFileListAction.loading && <DataTable />}
+        {!!files.length && !loading && <DataTable />}
 
-        {!files.length && !getFileListAction.loading && <EmptyFile />}
+        {!files.length && !loading && <EmptyFile />}
 
-        {getFileListAction.loading && (
+        {loading && (
           <div className="flex justify-center flex-1" style={{ marginTop: '30vh' }}>
-            <Loader loading={getFileListAction.loading} />
+            <Loader loading={loading} />
           </div>
         )}
+
+        <Toolbar rowCount={rowCount} numSelected={selected.length} />
 
         {/* 拽入文件添加文件 */}
         <DragOver />

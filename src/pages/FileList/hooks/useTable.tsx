@@ -3,8 +3,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useKeyIsDown } from '@/hooks/useKeyIsDown';
 import useDiskFiles from '@/pages/FileList/store/useDiskFiles';
 
+import useFilePath from '../store/useFilePath';
+
 export default function useTable() {
   const { files, selected, setSelected } = useDiskFiles();
+  const { addPath } = useFilePath();
   const ctrlKeyIsDown = useKeyIsDown('ctrl');
   const shiftKeyIsDown = useKeyIsDown('shift');
 
@@ -99,6 +102,11 @@ export default function useTable() {
     setSelected([]);
   };
 
+  const onRowDoubleClick = (fileItem: FileInfo) => {
+    const { id: folderId, fileName: label } = fileItem;
+    addPath({ folderId, label });
+  };
+
   return {
     files,
     selected,
@@ -106,5 +114,6 @@ export default function useTable() {
     onCheckBoxClick,
     onRowClick,
     clearSelected,
+    onRowDoubleClick,
   };
 }

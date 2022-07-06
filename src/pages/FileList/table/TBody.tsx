@@ -19,8 +19,15 @@ export default function TBody(props: {
   selected: string[];
   onRowClick: (id: string) => void;
   onCheckBoxClick: (e: any, id: string) => void;
+  onRowDoubleClick: (item: FileInfo) => void;
 }) {
-  const { data = [], selected = [], onRowClick = () => {}, onCheckBoxClick = () => {} } = props;
+  const {
+    data = [],
+    selected = [],
+    onRowClick = () => {},
+    onCheckBoxClick = () => {},
+    onRowDoubleClick = () => {},
+  } = props;
 
   const { contextMenu, closeContextMenu, setCurRightSelFile, openContextMenu } =
     useFileContextMenu();
@@ -42,7 +49,7 @@ export default function TBody(props: {
         }}
       >
         {data.map((fileItem) => {
-          const { id, fileName, modifyTime, size, thumb } = fileItem;
+          const { id, fileName, modifyTime, size, isFolder, thumb } = fileItem;
           const isItemSel = isSelected(id);
 
           return (
@@ -54,7 +61,9 @@ export default function TBody(props: {
                 onRowClick(id);
               }}
               onDoubleClick={() => {
-                console.log('row onDoubleClick');
+                if (isFolder) {
+                  onRowDoubleClick(fileItem);
+                }
               }}
               onContextMenu={() => {
                 setCurRightSelFile(fileItem);

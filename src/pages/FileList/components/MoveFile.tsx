@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 11:20:28
- * @ Modified time: 2022-06-20 16:07:40
+ * @ Modified time: 2022-07-06 09:09:55
  * @ Description:  移动文件
  */
 import { useState } from 'react';
@@ -22,9 +22,10 @@ import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
 import useAddActions from '../hooks/useAddActions';
 import useFileOperation from '../hooks/useFileOperation';
-import { createDemoRow } from '../store/useDiskFiles';
 
-const demoData = createDemoRow(13);
+// import { createDemoRow } from '../store/useDiskFiles';
+
+const demoData: any[] = [];
 
 const initPath = [
   {
