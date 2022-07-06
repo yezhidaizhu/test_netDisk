@@ -1,11 +1,11 @@
 /**
  * @ Create Time: 2022-07-06 11:58:41
- * @ Modified time: 2022-07-06 12:40:04
+ * @ Modified time: 2022-07-06 14:56:51
  * @ Description:  新建文件夹
  */
 import { useRequest } from 'ahooks';
 
-import { creatFolder, queryList } from '@/api';
+import { creatFolder } from '@/api';
 
 import useFilePath from '../../store/useFilePath';
 

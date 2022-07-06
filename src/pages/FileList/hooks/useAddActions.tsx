@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 09:00:41
- * @ Modified time: 2022-07-06 14:23:12
+ * @ Modified time: 2022-07-06 15:08:22
  * @ Description:  增加操作，包括 新建文件夹，上传文件
  */
 import { useEffect } from 'react';
@@ -76,17 +76,14 @@ export default function useAddActions() {
   // 文件夹创建成功
   useEffect(() => {
     const data = creatFolderAction.data;
-    if (data) {
-      const err = data.errmsg || '创建失败，未知错误';
-      if (data.result === 0) {
-        if (err?.includes('创建成功')) {
-          noti.success(err);
-          refreshFilePath(); // 刷新
-        } else {
-          noti.warning(err);
-        }
+    if (!data) return;
+    const err = data.errmsg || '创建失败，未知错误';
+    if (data.result === 0) {
+      if (err?.includes('创建成功')) {
+        noti.success(err);
+        refreshFilePath(); // 刷新
       } else {
-        noti.error(err);
+        noti.warning(err);
       }
     }
   }, [creatFolderAction.data]);

@@ -1,8 +1,10 @@
 /**
  * @ Create Time: 2022-06-16 14:47:03
- * @ Modified time: 2022-06-20 15:56:30
+ * @ Modified time: 2022-07-06 15:16:26
  * @ Description:  文件操作，包括 下载、 分享、 删除、移动，重命名
  */
+import { useEffect } from 'react';
+
 import {
   CloudDownload,
   DeleteForever,
@@ -15,10 +17,13 @@ import { Divider } from '@mui/material';
 import { useModal } from 'mui-modal-provider';
 
 import useDialog from '@/hooks/useDialog';
+import useNoti from '@/hooks/useNoti';
 import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
 import MoveFile from '../components/MoveFile';
 import ReName from '../components/ReName';
+import useFilePath from '../store/useFilePath';
+import useRename from './req/useRename';
 import { FileOperationItem, FileOperationType } from './types';
 
 const operations = {
@@ -52,6 +57,9 @@ const operations = {
 export default function useFileOperation() {
   const { warning } = useDialog();
   const { showModal } = useModal();
+  const noti = useNoti();
+  const { refreshFilePath } = useFilePath();
+  const { renameAction } = useRename();
 
   const onDownload = (files: FileInfo[]) => {
     console.log('onDownload => ', files);
@@ -85,9 +93,12 @@ export default function useFileOperation() {
       fileName: files[0].fileName,
       onConfirm: (newFileName: string) => {
         console.log('new file name:', newFileName);
+        renameAction.run({
+          folderId: files[0].id,
+          folderName: newFileName,
+        });
       },
     });
-    console.log('onRename');
   };
 
   const execFileOperation = (operation: FileOperationItem, files: FileInfo[]) => {
@@ -112,6 +123,19 @@ export default function useFileOperation() {
         break;
     }
   };
+
+  useEffect(() => {
+    const data = renameAction.data;
+    if (data?.result === 0) {
+      const err = data?.errmsg || '重命名失败，未知错误';
+      if (err.includes('成功')) {
+        noti.success(err);
+        refreshFilePath();
+      } else {
+        noti.warning(err);
+      }
+    }
+  }, [renameAction.data]);
 
   return {
     operations,

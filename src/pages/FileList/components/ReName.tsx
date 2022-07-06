@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 10:43:51
- * @ Modified time: 2022-06-20 14:58:02
+ * @ Modified time: 2022-07-06 14:53:36
  * @ Description:  重命名弹窗
  */
 import { useEffect, useRef, useState } from 'react';
@@ -33,7 +33,11 @@ export default function ReName(
   const inputRef = useRef<any>(null);
   const [newFileName, setNewFileName] = useState('');
 
-  useKeyPress('Enter', (e) => _onConfirm());
+  useKeyPress('Enter', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    _onConfirm();
+  });
 
   const onCloseDialog = () => {
     const close = dialogprops.onClose;
@@ -56,8 +60,10 @@ export default function ReName(
 
   useEffect(() => {
     setNewFileName(fileName);
+    const lastPonitIndex = fileName.lastIndexOf('.');
     setTimeout(() => {
-      inputRef.current?.select();
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(0, lastPonitIndex);
     });
   }, []);
 
@@ -79,6 +85,7 @@ export default function ReName(
           margin="dense"
           label={label}
           fullWidth
+          spellCheck={false}
           inputProps={{
             maxLength: 30,
             selectionstart: 0,
