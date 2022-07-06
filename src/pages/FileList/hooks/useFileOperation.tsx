@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-16 14:47:03
- * @ Modified time: 2022-07-06 15:16:26
+ * @ Modified time: 2022-07-06 15:51:07
  * @ Description:  文件操作，包括 下载、 分享、 删除、移动，重命名
  */
 import { useEffect } from 'react';
@@ -20,9 +20,11 @@ import useDialog from '@/hooks/useDialog';
 import useNoti from '@/hooks/useNoti';
 import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
+import DeleteFileContent from '../components/DeleteFileContent';
 import MoveFile from '../components/MoveFile';
 import ReName from '../components/ReName';
 import useFilePath from '../store/useFilePath';
+import useDeleteFolder from './req/useDeleteFolder';
 import useRename from './req/useRename';
 import { FileOperationItem, FileOperationType } from './types';
 
@@ -60,6 +62,7 @@ export default function useFileOperation() {
   const noti = useNoti();
   const { refreshFilePath } = useFilePath();
   const { renameAction } = useRename();
+  const { deleteFolderAction } = useDeleteFolder();
 
   const onDownload = (files: FileInfo[]) => {
     console.log('onDownload => ', files);
@@ -71,14 +74,15 @@ export default function useFileOperation() {
 
   const onDelete = (files: FileInfo[]) => {
     console.log('onDelete waring');
-    const fileNameList = files.map((file) => file.fileName);
     warning({
       title: '删除文件',
-      content: <DeleteFileContent fileNameList={fileNameList} />,
-      confirmLabel: `删除 (${fileNameList.length})`,
+      content: <DeleteFileContent files={files} />,
+      confirmLabel: `删除 (${files.length})`,
       confirmBtnProps: { color: 'error' },
       onConfirm: () => {
         console.log('onDelete => ', files);
+        const ids = files.map((file) => file.id);
+        deleteFolderAction.run({ folderIds: ids.join(',') });
       },
     });
   };
@@ -124,18 +128,33 @@ export default function useFileOperation() {
     }
   };
 
-  useEffect(() => {
-    const data = renameAction.data;
+  // 处理请求
+  const handleResponse = (opts: { data: any; defaultErr: string; notiSuccess?: boolean }) => {
+    const { data, defaultErr, notiSuccess } = opts;
     if (data?.result === 0) {
-      const err = data?.errmsg || '重命名失败，未知错误';
+      const err = data?.errmsg || defaultErr;
       if (err.includes('成功')) {
-        noti.success(err);
+        notiSuccess && noti.success(err);
         refreshFilePath();
       } else {
         noti.warning(err);
       }
     }
+  };
+
+  useEffect(() => {
+    handleResponse({
+      data: renameAction.data,
+      defaultErr: '重命名失败，未知错误',
+    });
   }, [renameAction.data]);
+
+  useEffect(() => {
+    handleResponse({
+      data: deleteFolderAction.data,
+      defaultErr: '删除失败，未知错误',
+    });
+  }, [deleteFolderAction.data]);
 
   return {
     operations,
@@ -146,22 +165,4 @@ export default function useFileOperation() {
     onRename,
     execFileOperation,
   };
-}
-
-function DeleteFileContent(props: { fileNameList: string[] }) {
-  const { fileNameList } = props;
-  return (
-    <div>
-      确定删除以下文件？
-      <Divider />
-      <div className="pt-2 flex flex-col gap-1 flex-wrap text-sm">
-        {fileNameList.map((fname, index) => (
-          <div key={index} className="flex gap-1">
-            <img src={imgIcon} className="w-4" />
-            {fname}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }

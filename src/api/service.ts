@@ -45,9 +45,9 @@ export function creatFolder(creatFolderParamType: CreatFolderParamType) {
 
 // 删除
 export function deleteFolder(deleteFolderParamType: DeleteFolderParamType) {
-  const { folderId } = deleteFolderParamType;
+  const { folderIds } = deleteFolderParamType;
   const params = qs.stringify({
-    folderId,
+    ypaIds: folderIds,
   });
   return axios.get(`${window.API}EAPYunPan/Delete?${params}`);
 }

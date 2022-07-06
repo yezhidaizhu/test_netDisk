@@ -19,7 +19,7 @@ type CreatFolderParamType = {
 };
 
 type DeleteFolderParamType = {
-  folderId: number;
+  folderIds: string;
 };
 
 type RenameParamType = {
