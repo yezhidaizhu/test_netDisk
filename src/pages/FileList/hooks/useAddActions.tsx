@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 09:00:41
- * @ Modified time: 2022-07-06 15:08:22
+ * @ Modified time: 2022-07-06 16:23:28
  * @ Description:  增加操作，包括 新建文件夹，上传文件
  */
 import { useEffect } from 'react';
@@ -14,6 +14,7 @@ import useNoti from '@/hooks/useNoti';
 import AddFolder from '../components/AddFolder';
 import useFilePath from '../store/useFilePath';
 import useCreatFolder from './req/useCreatFolder';
+import useGetPrivilege from './req/useGetPrivilege';
 import { AddActionItem, AddActionType } from './types';
 
 export const addActions = {
@@ -32,23 +33,20 @@ export const addActions = {
 export default function useAddActions() {
   const noti = useNoti();
   const { showModal } = useModal();
+  const { getPrivilegeAction } = useGetPrivilege();
   const { creatFolderAction } = useCreatFolder();
-  const { refreshFilePath } = useFilePath();
+  const { isMineNetDisk, refreshFilePath } = useFilePath();
 
   /**
-   *
-   * @param opts filePath: 新建文件夹的路劲
+   * 新建文件夹
    */
-  const onNewFolder = (opts?: { filePath: { label: string; id: number }[] }) => {
-    const { filePath = [] } = opts || {};
-
-    console.log('onNewFolder and filePath=> ', filePath);
-    showModal(AddFolder, {
-      onConfirm: (newFileName: string) => {
-        console.log('new file name:', newFileName);
-        creatFolderAction.run({ folderName: newFileName });
-      },
-    });
+  const onNewFolder = () => {
+    console.log('newFolder');
+    if (!isMineNetDisk) {
+      getPrivilegeAction.run();
+    } else {
+      openNewFolder();
+    }
   };
 
   /**
@@ -73,6 +71,15 @@ export default function useAddActions() {
     }
   };
 
+  const openNewFolder = () => {
+    showModal(AddFolder, {
+      onConfirm: (newFileName: string) => {
+        console.log('new file name:', newFileName);
+        creatFolderAction.run({ folderName: newFileName });
+      },
+    });
+  };
+
   // 文件夹创建成功
   useEffect(() => {
     const data = creatFolderAction.data;
@@ -87,6 +94,18 @@ export default function useAddActions() {
       }
     }
   }, [creatFolderAction.data]);
+
+  // 获取到权限
+  useEffect(() => {
+    const data = getPrivilegeAction.data;
+    if (data) {
+      if (data?.prv === 1) {
+        openNewFolder();
+      } else {
+        noti.info('您没有操作权限！');
+      }
+    }
+  }, [getPrivilegeAction.data]);
 
   return {
     onNewFolder,
