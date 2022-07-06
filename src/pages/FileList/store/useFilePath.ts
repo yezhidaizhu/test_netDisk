@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-15 15:32:18
- * @ Modified time: 2022-07-06 11:12:40
+ * @ Modified time: 2022-07-06 14:21:48
  * @ Description: 当前文件夹路劲
  */
 import { atom, useRecoilState } from 'recoil';
@@ -49,11 +49,7 @@ export default function useFilePath() {
    * @param item 路径对象 filePathItemType， 可以为空，为空则回到根目录
    * @returns
    */
-  const arrivePath = (item?: filePathItemType) => {
-    if (!item) {
-      setFilePath([]);
-      return;
-    }
+  const arrivePath = (item: filePathItemType) => {
     const curFolderId = item.folderId;
     const fIndex = filePath.findIndex((item) => item.folderId === curFolderId);
 
@@ -61,6 +57,20 @@ export default function useFilePath() {
 
     const newFilePath = [...filePath].splice(0, fIndex + 1);
     setFilePath(newFilePath);
+  };
+
+  /**
+   * 回到根目录
+   */
+  const arriveRoot = () => {
+    setFilePath([]);
+  };
+
+  /**
+   * 触发一次修改路劲，起到刷新作用，可用于刷新文件列表，新增文件时，就可以使用上
+   */
+  const refreshFilePath = () => {
+    setFilePath([...filePath]);
   };
 
   // 改变云盘类型，我的/公共
@@ -88,6 +98,8 @@ export default function useFilePath() {
     setDiskType,
     addPath,
     arrivePath,
+    arriveRoot,
+    refreshFilePath,
     getCurFolderId,
   };
 }

@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-16 09:05:25
- * @ Modified time: 2022-06-20 16:02:09
+ * @ Modified time: 2022-07-06 12:52:01
  * @ Description:  新建文件夹弹窗
  */
 import { useEffect, useRef, useState } from 'react';
@@ -45,7 +45,6 @@ export default function AddFolder(
       noti.error(err);
     } else {
       onConfirm(newFolderName);
-      noti.success('新建成功');
       onCloseDialog();
     }
   };

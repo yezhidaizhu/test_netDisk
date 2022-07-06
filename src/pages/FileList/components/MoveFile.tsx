@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 11:20:28
- * @ Modified time: 2022-07-06 09:09:55
+ * @ Modified time: 2022-07-06 12:46:14
  * @ Description:  移动文件
  */
 import { useState } from 'react';
@@ -29,7 +29,7 @@ const demoData: any[] = [];
 
 const initPath = [
   {
-    id: 'all',
+    id: -1,
     label: '全部文件',
   },
 ];
@@ -187,4 +187,4 @@ function BreadcrumbItem(props: {
   );
 }
 
-type CurFilePathType = { label: string; id: string };
+type CurFilePathType = { label: string; id: number };

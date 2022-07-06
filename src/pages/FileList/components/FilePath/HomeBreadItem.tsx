@@ -14,7 +14,7 @@ import Popper from '@mui/material/Popper';
 import useFilePath, { netDiskType } from '../../store/useFilePath';
 
 export default function HomeBreadItem() {
-  const { isMineNetDisk, setDiskType, arrivePath } = useFilePath();
+  const { isMineNetDisk, setDiskType, arriveRoot } = useFilePath();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedType, setSelectedType] = useState(0);
@@ -22,7 +22,7 @@ export default function HomeBreadItem() {
   const options = [netDiskType.Mine, netDiskType.Common];
 
   const handleClick = () => {
-    arrivePath();
+    arriveRoot();
     console.info(`You clicked ${options[selectedType]}`);
   };
 

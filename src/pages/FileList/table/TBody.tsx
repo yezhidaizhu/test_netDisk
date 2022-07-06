@@ -16,9 +16,9 @@ const fsize = filesize.partial({ base: 2, standard: 'jedec' });
 
 export default function TBody(props: {
   data: FileInfo[];
-  selected: string[];
-  onRowClick: (id: string) => void;
-  onCheckBoxClick: (e: any, id: string) => void;
+  selected: number[];
+  onRowClick: (id: number) => void;
+  onCheckBoxClick: (e: any, id: number) => void;
   onRowDoubleClick: (item: FileInfo) => void;
 }) {
   const {
@@ -33,7 +33,7 @@ export default function TBody(props: {
     useFileContextMenu();
 
   const isSelected = useCallback(
-    (id: string) => {
+    (id: number) => {
       return selected.findIndex((_id) => _id === id) !== -1;
     },
     [selected],

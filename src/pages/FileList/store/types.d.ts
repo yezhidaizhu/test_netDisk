@@ -5,7 +5,7 @@ type Actions = {
 };
 
 interface FileInfo {
-  id: string;
+  id: number;
   fileName: string;
   size: number;
   modifyTime: any;
@@ -17,10 +17,10 @@ interface FileInfo {
 
 type DiskFiles = FileInfo[];
 
-type DiskFilesSelected = string[];
+type DiskFilesSelected = number[];
 
 type filePathItemType = {
   label: string;
-  folderId: string;
+  folderId: number;
   [x: string]: any;
 };

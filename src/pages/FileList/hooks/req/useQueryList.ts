@@ -1,13 +1,12 @@
 /**
  * @ Create Time: 2022-07-06 08:58:35
- * @ Modified time: 2022-07-06 11:51:06
+ * @ Modified time: 2022-07-06 12:09:15
  * @ Description:  获取文件列表
  */
 import { useRequest } from 'ahooks';
 
 import { queryList } from '@/api';
 
-import useDiskFiles from '../../store/useDiskFiles';
 import useFilePath from '../../store/useFilePath';
 
 export default function useQueryList() {
@@ -17,12 +16,15 @@ export default function useQueryList() {
     async (
       queryListParamType: QueryListParamType = {
         folderId: 0,
-        isPublic: 0,
         sortField: '',
         isFolder: 0,
+        isPublic: -1,
       },
     ) => {
-      const isPublic = isMineNetDisk ? 0 : 1;
+      // 如果不传递 isPublic 则按当前类型为准
+      const isPublic =
+        queryListParamType.isPublic === -1 ? (isMineNetDisk ? 0 : 1) : queryListParamType.isPublic;
+
       // 如果folderId 不传递，则根据当前路劲获取id
       const folderId = queryListParamType.folderId ? queryListParamType.folderId : getCurFolderId();
 

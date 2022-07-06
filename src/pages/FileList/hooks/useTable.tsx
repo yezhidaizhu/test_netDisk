@@ -11,14 +11,14 @@ export default function useTable() {
   const ctrlKeyIsDown = useKeyIsDown('ctrl');
   const shiftKeyIsDown = useKeyIsDown('shift');
 
-  const [clickWithoutShift, setClickWithoutShift] = useState(''); // 未按下shift键前的最后一个选择， 用于按下 shift 键连选
-  const [seriesId, setSeriesId] = useState<string[]>([]); // 按下 shift 进行连续选择的id
+  const [clickWithoutShift, setClickWithoutShift] = useState<number | undefined>(); // 未按下shift键前的最后一个选择， 用于按下 shift 键连选
+  const [seriesId, setSeriesId] = useState<number[]>([]); // 按下 shift 进行连续选择的id
   useEffect(() => {
     files.length && setClickWithoutShift(files[0].id);
   }, []);
 
   const onRowClick = useCallback(
-    (id: string) => {
+    (id: number) => {
       // 按下 ctrl 键可以多选
       if (ctrlKeyIsDown) {
         const existId = selected.find((fid) => fid === id);
@@ -40,7 +40,7 @@ export default function useTable() {
         const curSelFileIndex = files.findIndex((file) => file.id === id);
         const compare = curSelFileIndex - clickWithoutShiftFileIndex;
         // 当前应该连续选择的Id
-        const _seriesId: string[] = [];
+        const _seriesId: number[] = [];
         files.map((file, index) => {
           const _id = file.id;
 
@@ -74,7 +74,7 @@ export default function useTable() {
   );
 
   const onCheckBoxClick = useCallback(
-    (e: any, id: string) => {
+    (e: any, id: number) => {
       e.stopPropagation();
       const checked = e.target.checked;
       const index = selected.findIndex((_id) => _id === id);

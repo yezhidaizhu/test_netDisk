@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-15 15:32:18
- * @ Modified time: 2022-07-06 09:01:54
+ * @ Modified time: 2022-07-06 12:41:05
  * @ Description: 当前文件夹下的文件
  */
 import { atom, useRecoilState } from 'recoil';
@@ -42,7 +42,7 @@ function useDiskFiles() {
   };
 
   // 判断文件是否被选择到
-  const checkFileIsSelected = (fileId: string) => {
+  const checkFileIsSelected = (fileId: number) => {
     return selected.includes(fileId);
   };
 
