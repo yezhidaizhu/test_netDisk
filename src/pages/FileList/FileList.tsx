@@ -12,9 +12,11 @@ import DragOver from './components/DragOver';
 import EmptyFile from './components/EmptyFile';
 import FilePath from './components/FilePath';
 import Search from './components/Search';
+import SearchInput from './components/SearchInput';
 import useQueryList from './hooks/req/useQueryList';
 import useDragUpload from './hooks/useDragUpload';
 import useFilePath from './store/useFilePath';
+import useSearch from './store/useSearch';
 import DataTable from './table';
 import Toolbar from './table/Toolbar';
 
@@ -65,9 +67,12 @@ function FileList() {
           </FlexBox>
         </FlexBox>
 
+        {/* 搜索 */}
+        <SearchInput />
+
         {!!files.length && !loading && <DataTable />}
 
-        {!files.length && !loading && <EmptyFile />}
+        {!files.length && !loading && <EmptyFile show={!files.length && !loading} />}
 
         {loading && (
           <div className="flex justify-center flex-1" style={{ marginTop: '30vh' }}>
