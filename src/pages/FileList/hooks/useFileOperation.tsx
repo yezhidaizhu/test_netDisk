@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-16 14:47:03
- * @ Modified time: 2022-07-06 15:51:07
+ * @ Modified time: 2022-07-07 14:28:01
  * @ Description:  文件操作，包括 下载、 分享、 删除、移动，重命名
  */
 import { useEffect } from 'react';
@@ -12,13 +12,11 @@ import {
   DriveFileRenameOutline,
   Share,
 } from '@mui/icons-material';
-import { Divider } from '@mui/material';
 
 import { useModal } from 'mui-modal-provider';
 
 import useDialog from '@/hooks/useDialog';
 import useNoti from '@/hooks/useNoti';
-import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
 import DeleteFileContent from '../components/DeleteFileContent';
 import MoveFile from '../components/MoveFile';
@@ -88,7 +86,7 @@ export default function useFileOperation() {
   };
 
   const onMove = (files: FileInfo[]) => {
-    showModal(MoveFile, {});
+    showModal(MoveFile, { moveFileList: files });
     console.log('onMove');
   };
 

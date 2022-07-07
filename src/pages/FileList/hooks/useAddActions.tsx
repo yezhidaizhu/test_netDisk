@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-20 09:00:41
- * @ Modified time: 2022-07-06 16:23:28
+ * @ Modified time: 2022-07-07 14:11:29
  * @ Description:  增加操作，包括 新建文件夹，上传文件
  */
 import { useEffect } from 'react';
@@ -33,19 +33,31 @@ export const addActions = {
 export default function useAddActions() {
   const noti = useNoti();
   const { showModal } = useModal();
-  const { getPrivilegeAction } = useGetPrivilege();
-  const { creatFolderAction } = useCreatFolder();
   const { isMineNetDisk, refreshFilePath } = useFilePath();
+  const { creatFolderAction } = useCreatFolder();
+  const { getPrivilegeAction } = useGetPrivilege();
 
   /**
    * 新建文件夹
+   * @param parentFolder 父级文件夹名，默认为当前路径的文件夹
    */
-  const onNewFolder = () => {
+  const onNewFolder = async (
+    parentFolder?: FileInfo | { id: number },
+    opts?: { onSuccess?: () => void; dissmissRefreshNetList?: boolean },
+  ) => {
     console.log('newFolder');
     if (!isMineNetDisk) {
-      getPrivilegeAction.run();
+      // 获取权限
+      const data = await getPrivilegeAction.runAsync();
+      if (data) {
+        if (data?.prv === 1) {
+          openNewFolder(parentFolder, opts);
+        } else {
+          noti.info('您没有操作权限！');
+        }
+      }
     } else {
-      openNewFolder();
+      openNewFolder(parentFolder, opts);
     }
   };
 
@@ -71,41 +83,35 @@ export default function useAddActions() {
     }
   };
 
-  const openNewFolder = () => {
+  const openNewFolder = (
+    parentFolder?: FileInfo | { id: number },
+    opts?: { onSuccess?: () => void; dissmissRefreshNetList?: boolean },
+  ) => {
+    const { onSuccess, dissmissRefreshNetList } = opts || {};
     showModal(AddFolder, {
-      onConfirm: (newFileName: string) => {
+      onConfirm: async (newFileName: string) => {
         console.log('new file name:', newFileName);
-        creatFolderAction.run({ folderName: newFileName });
+        const params = { folderName: newFileName };
+        if (parentFolder?.id) {
+          Object.assign(params, { folderId: parentFolder.id });
+        }
+        const data = await creatFolderAction.runAsync(params);
+
+        // 文件夹创建
+        if (!data) return;
+        const err = data.errmsg || '创建失败，未知错误';
+        if (data.result === 0) {
+          if (err?.includes('创建成功')) {
+            noti.success(err);
+            !dissmissRefreshNetList && refreshFilePath(); // 刷新当前列表
+            onSuccess?.();
+          } else {
+            noti.warning(err);
+          }
+        }
       },
     });
   };
-
-  // 文件夹创建成功
-  useEffect(() => {
-    const data = creatFolderAction.data;
-    if (!data) return;
-    const err = data.errmsg || '创建失败，未知错误';
-    if (data.result === 0) {
-      if (err?.includes('创建成功')) {
-        noti.success(err);
-        refreshFilePath(); // 刷新
-      } else {
-        noti.warning(err);
-      }
-    }
-  }, [creatFolderAction.data]);
-
-  // 获取到权限
-  useEffect(() => {
-    const data = getPrivilegeAction.data;
-    if (data) {
-      if (data?.prv === 1) {
-        openNewFolder();
-      } else {
-        noti.info('您没有操作权限！');
-      }
-    }
-  }, [getPrivilegeAction.data]);
 
   return {
     onNewFolder,

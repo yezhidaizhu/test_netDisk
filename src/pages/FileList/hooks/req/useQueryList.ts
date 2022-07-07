@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-07-06 08:58:35
- * @ Modified time: 2022-07-06 17:57:01
+ * @ Modified time: 2022-07-07 15:39:50
  * @ Description:  获取文件列表
  */
 import { useRequest } from 'ahooks';
@@ -27,34 +27,39 @@ export default function useQueryList() {
             name?: string | undefined;
             isFolder?: number;
           } = {
-        folderId: 0,
+        folderId: -1,
         sortField: '',
         isFolder: 0,
         isPublic: -1,
       },
+      opts?: {
+        dismissSearch?: boolean; // 是否忽视搜索值
+      },
     ) => {
       const {
-        folderId = 0,
+        folderId = -1,
         sortField = '',
         name = '',
         isFolder = 0,
         isPublic = -1,
       } = queryListParamType || {};
 
+      const { dismissSearch } = opts || {};
+
       // 如果不传递 isPublic 则按当前类型为准
       const _isPublic = isPublic === -1 ? (isMineNetDisk ? 0 : 1) : isPublic;
 
       // 如果folderId 不传递，则根据当前路劲获取id
-      const _folderId = folderId ? folderId : getCurFolderId();
+      const _folderId = folderId === -1 ? getCurFolderId() : folderId;
 
-      // 如果打开搜索，则按搜索值传入
-      const _name = isOpenSearchFileList ? searchValue : name;
+      // 如果打开搜索，且name为空，则按搜索值传入
+      const _name = isOpenSearchFileList && !name ? searchValue : name;
 
       const { data } = await queryList({
         folderId: _folderId,
         isPublic: _isPublic,
         sortField,
-        name: _name,
+        name: dismissSearch ? '' : _name,
         isFolder,
       });
 

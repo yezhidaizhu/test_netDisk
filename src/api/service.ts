@@ -64,9 +64,9 @@ export function rename(renameParamType: RenameParamType) {
 
 // 移动文件
 export function move(moveParamType: MoveParamType) {
-  const { fromId, toId, isPublic = 0 } = moveParamType;
+  const { fromIds, toId, isPublic = 0 } = moveParamType;
   const params = qs.stringify({
-    fromYpaids: fromId,
+    fromYpaids: fromIds,
     targetYpaId: toId,
     isPublic,
   });

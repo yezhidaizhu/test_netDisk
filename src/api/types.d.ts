@@ -28,8 +28,8 @@ type RenameParamType = {
 };
 
 type MoveParamType = {
-  fromId: number;
-  toId: string;
+  fromIds: string;
+  toId: number;
   isPublic: number;
 };
 
