@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 
@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import filesize from 'filesize';
 
 import FileIcon from '@/components/FileIcon';
-import imgIcon from '@/utils/fileIcon/icons/image.svg';
 
 import TableRowsRightContextMenu from '../components/TableRowsRightContextMenu';
 import useFileContextMenu from '../store/useFileContextMenu';
@@ -38,6 +37,10 @@ export default function TBody(props: {
     },
     [selected],
   );
+
+  useEffect(() => {
+    !contextMenu && setCurRightSelFile(null);
+  }, [contextMenu]);
 
   return (
     <>
