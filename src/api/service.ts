@@ -75,9 +75,9 @@ export function move(moveParamType: MoveParamType) {
 
 // 分享文件
 export function share(shareParamType: ShareParamType) {
-  const { folderId, folderName, empIds } = shareParamType;
+  const { folderIds, folderName, empIds } = shareParamType;
   const params = qs.stringify({
-    ids: folderId,
+    ids: folderIds,
     name: folderName,
     notice: 1,
     toEmpIds: empIds,

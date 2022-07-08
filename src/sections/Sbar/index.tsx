@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { CompareArrows, Save, Settings } from '@mui/icons-material';
-import { Box, Fade, Grow } from '@mui/material';
+import { CompareArrows, Reply, Save, Settings, Share } from '@mui/icons-material';
+import { Box, Grow } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -21,7 +21,7 @@ import { fsize } from '@/utils/helper';
 
 export const drawerWidth = 240;
 
-const labelList1 = [
+const netDiskList = [
   {
     label: '云盘',
     Icon: Save,
@@ -34,7 +34,20 @@ const labelList1 = [
   },
 ];
 
-const labelList2 = [
+const shareList = [
+  {
+    label: '查看分享',
+    Icon: Share,
+    path: routes[Pages.Share].path,
+  },
+  {
+    label: '我的分享',
+    Icon: Reply,
+    path: routes[Pages.MineShare].path,
+  },
+];
+
+const otherList = [
   {
     label: '设置',
     Icon: Settings,
@@ -64,9 +77,11 @@ export default function PersistentDrawerLeft() {
     >
       <Box className="p-2 flex flex-col justify-between h-full">
         <Box>
-          <SideList list={labelList1} curPath={location.pathname} />
+          <SideList list={netDiskList} curPath={location.pathname} />
           <Divider />
-          <SideList list={labelList2} curPath={location.pathname} />
+          <SideList list={shareList} curPath={location.pathname} />
+          <Divider />
+          <SideList list={otherList} curPath={location.pathname} />
         </Box>
 
         <DiskSpace />

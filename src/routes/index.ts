@@ -2,6 +2,8 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import HomeIcon from '@mui/icons-material/Home';
+import Reply from '@mui/icons-material/Reply';
+import Share from '@mui/icons-material/Share';
 import TerrainIcon from '@mui/icons-material/Terrain';
 
 import asyncComponentLoader from '@/utils/loader';
@@ -20,6 +22,18 @@ const routes: Routes = {
     path: '/transfer',
     title: '传输列表',
     icon: HomeIcon,
+  },
+  [Pages.Share]: {
+    component: asyncComponentLoader(() => import('@/pages/Share')),
+    path: '/Share',
+    title: '查看分享',
+    icon: Share,
+  },
+  [Pages.MineShare]: {
+    component: asyncComponentLoader(() => import('@/pages/MineShare')),
+    path: '/MineShare',
+    title: '我的分享',
+    icon: Reply,
   },
   [Pages.Page1]: {
     component: asyncComponentLoader(() => import('@/pages/Page1')),

@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-06-16 14:47:03
- * @ Modified time: 2022-07-07 14:28:01
+ * @ Modified time: 2022-07-07 18:02:32
  * @ Description:  文件操作，包括 下载、 分享、 删除、移动，重命名
  */
 import { useEffect } from 'react';
@@ -22,6 +22,7 @@ import DeleteFileContent from '../components/DeleteFileContent';
 import MoveFile from '../components/MoveFile';
 import ReName from '../components/ReName';
 import useFilePath from '../store/useFilePath';
+import useShareDrawer from '../store/useShareDrawer';
 import useDeleteFolder from './req/useDeleteFolder';
 import useRename from './req/useRename';
 import { FileOperationItem, FileOperationType } from './types';
@@ -61,6 +62,7 @@ export default function useFileOperation() {
   const { refreshFilePath } = useFilePath();
   const { renameAction } = useRename();
   const { deleteFolderAction } = useDeleteFolder();
+  const { showShare } = useShareDrawer();
 
   const onDownload = (files: FileInfo[]) => {
     console.log('onDownload => ', files);
@@ -68,6 +70,7 @@ export default function useFileOperation() {
 
   const onShare = (files: FileInfo[]) => {
     console.log('onShare => ', files);
+    showShare();
   };
 
   const onDelete = (files: FileInfo[]) => {

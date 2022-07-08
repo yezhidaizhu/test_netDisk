@@ -13,6 +13,7 @@ import EmptyFile from './components/EmptyFile';
 import FilePath from './components/FilePath';
 import Search from './components/Search';
 import SearchInput from './components/SearchInput';
+import ShareModal from './components/ShareModal';
 import useQueryList from './hooks/req/useQueryList';
 import useDragUpload from './hooks/useDragUpload';
 import useFilePath from './store/useFilePath';
@@ -84,6 +85,9 @@ function FileList() {
 
         {/* 拽入文件添加文件 */}
         <DragOver />
+
+        {/* 分享 */}
+        <ShareModal />
       </Box>
     </>
   );

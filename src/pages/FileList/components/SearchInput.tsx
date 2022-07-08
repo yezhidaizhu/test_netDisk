@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-07-06 16:36:53
- * @ Modified time: 2022-07-07 09:07:31
+ * @ Modified time: 2022-07-08 17:20:22
  * @ Description:  搜索
  */
 import { useEffect, useRef } from 'react';
@@ -22,7 +22,7 @@ export default function SearchInput() {
     () => {
       refreshFilePath();
     },
-    { trailing: true, wait: 1000 },
+    { trailing: true, wait: 500 },
   );
 
   // 按下回车确认

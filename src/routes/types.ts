@@ -6,6 +6,8 @@ import type { SvgIconProps } from '@mui/material/SvgIcon';
 enum Pages {
   FileList,
   Transfer,
+  Share,
+  MineShare,
   Page1,
   Page2,
   Page3,

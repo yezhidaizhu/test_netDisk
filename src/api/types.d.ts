@@ -34,7 +34,7 @@ type MoveParamType = {
 };
 
 type ShareParamType = {
-  folderId: number;
+  folderIds: number;
   folderName: string;
   empIds: number;
 };
@@ -67,4 +67,14 @@ type CancelShareParamType = {
 
 type GetYpsIdParamType = {
   linkId: number;
+};
+
+// 人员
+type QueryOrgParamType = {
+  dptId: number;
+  companyId: number;
+};
+
+type SearchOrgType = {
+  content: string;
 };
