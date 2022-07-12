@@ -16,6 +16,20 @@ export function validateFileName(fileName: string) {
 }
 
 /**
+ * 检查文件名，并返回错误的原因
+ * @param folderName 文件名
+ * @returns
+ */
+export function checkFolderName(folderName: string) {
+  const value = folderName?.trim();
+  if (!value) return '名称不能为空';
+
+  if (!validateFileName(folderName)) {
+    return '文件名不支持特殊字符';
+  }
+}
+
+/**
  * 返回 KB，GB 结尾
  * @param size 文件大小
  * @returns

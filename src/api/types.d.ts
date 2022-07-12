@@ -34,9 +34,9 @@ type MoveParamType = {
 };
 
 type ShareParamType = {
-  folderIds: number;
+  folderIds: string;
   folderName: string;
-  empIds: number;
+  empIds: string;
 };
 
 type UpLoadParamType = {
@@ -46,7 +46,7 @@ type UpLoadParamType = {
 };
 
 type GetShareFolderParamType = {
-  type: string;
+  type: 2 | 3;
 };
 
 type ShareDetailParamType = {
@@ -62,7 +62,7 @@ type SaveToMyYpaParamType = {
 };
 
 type CancelShareParamType = {
-  ypsId: number;
+  ypsId: string;
 };
 
 type GetYpsIdParamType = {

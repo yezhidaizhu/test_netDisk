@@ -1,24 +1,29 @@
 /**
  * @ Create Time: 2022-07-08 09:35:51
- * @ Modified time: 2022-07-08 17:51:51
+ * @ Modified time: 2022-07-11 15:11:53
  * @ Description:  分享抽屉
  */
 import { useEffect, useMemo, useState } from 'react';
 
 import { uniqBy } from 'lodash';
 
+import useNoti from '@/hooks/useNoti';
+
 import useShareDrawer from '../store/useShareDrawer';
 import useQueryOrg from './req/useQueryOrg';
 import useSearchOrg from './req/useQueryOrg copy';
+import useShareReq from './req/useShareReq';
 
 export default function useShare() {
-  const { isOpenShare } = useShareDrawer();
+  const noti = useNoti();
+  const { isOpenShare, shareFiles, closeShare } = useShareDrawer();
   const { queryOrgAction } = useQueryOrg();
   const { searchOrgAction } = useSearchOrg();
+  const { shareReqAciton } = useShareReq();
 
   const { openSearch, toggleSearch, closeSearch, showSearch } = useSearch();
-  const { selected, setSelected, addPerson, deletePerson } = useSelected();
   const { personList, setPersonList } = usePersonList();
+  const { selected, setSelected, addPerson, deletePerson } = usePersonSelected();
   const { compPath, addPath, arrivePath, clearCompPath } = useCompPath();
 
   const loading = useMemo(() => {
@@ -58,6 +63,28 @@ export default function useShare() {
     pathItem && onClikCompPath(pathItem);
   };
 
+  // 确认
+  const onComfirmShare = async (folderName: string) => {
+    const folderIds = shareFiles.map((file) => file.id).join(',');
+    const empIds = selected.map((emp) => emp.id).join(',');
+
+    const params: ShareParamType = {
+      folderIds,
+      folderName,
+      empIds,
+    };
+    const { data } = await shareReqAciton.runAsync(params);
+
+    if (data?.result === 0) {
+      if (!data?.errmsg) {
+        noti.success('分享成功');
+        closeShare();
+      } else {
+        noti.warning(data.errmsg);
+      }
+    }
+  };
+
   // 重置选择人员
   const reset = () => {
     setSelected([]);
@@ -89,6 +116,7 @@ export default function useShare() {
     deletePerson,
     onClickDpt,
     onClikCompPath,
+    onComfirmShare,
   };
 }
 
@@ -137,7 +165,7 @@ function useCompPath() {
 /**
  *  已经选择人员
  */
-function useSelected() {
+function usePersonSelected() {
   const [selected, setSelected] = useState<SelPersonItemType[]>([]);
 
   const addPerson = (personList: SelPersonItemType[]) => {

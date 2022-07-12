@@ -38,7 +38,7 @@ export default function THead(props: {
   );
 }
 
-function HeadLabel(props: { label: string }) {
+export function HeadLabel(props: { label: string }) {
   return (
     <div>
       <span className="opacity-60 text-sm hover:opacity-100 cursor-pointer">{props.label}</span>

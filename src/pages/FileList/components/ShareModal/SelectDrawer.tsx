@@ -24,6 +24,7 @@ export default function SelectDrawer() {
     onClickDpt,
     onClikCompPath,
     onCloseSearch,
+    onComfirmShare,
   } = useShare();
 
   const { isOpenShare, closeShare } = useShareDrawer();
@@ -58,7 +59,7 @@ export default function SelectDrawer() {
         <IsSelected list={selected} onDelete={deletePerson} />
 
         {/* 操作 */}
-        <EndAction />
+        <EndAction onComfirm={onComfirmShare} />
       </div>
     </Drawer>
   );

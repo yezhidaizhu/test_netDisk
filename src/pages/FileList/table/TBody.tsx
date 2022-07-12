@@ -87,9 +87,7 @@ export default function TBody(props: {
               <TableCell>
                 <SecLabel label={dayjs(modifyTime).format('YYYY/MM/DD hh:mm')} />
               </TableCell>
-              <TableCell>
-                <SecLabel label={fsize(size)} />
-              </TableCell>
+              <TableCell>{!isFolder && <SecLabel label={fsize(size)} />}</TableCell>
             </TableRow>
           );
         })}
@@ -101,7 +99,7 @@ export default function TBody(props: {
 }
 
 // 文件名
-function FileName(props: { name: string; thumb?: string }) {
+export function FileName(props: { name: string; thumb?: string }) {
   const { name, thumb } = props;
   return (
     <div className="flex items-center gap-2 cursor-pointer select-none">
@@ -112,7 +110,7 @@ function FileName(props: { name: string; thumb?: string }) {
 }
 
 // 修改日期/文件大小 文字样式
-function SecLabel(props: { label: string }) {
+export function SecLabel(props: { label: string }) {
   return (
     <span className="opacity-60 truncate text-sm hover:opacity-100 cursor-pointer">
       {props.label}
