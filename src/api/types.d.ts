@@ -51,7 +51,7 @@ type GetShareFolderParamType = {
 
 type ShareDetailParamType = {
   ypsId: number;
-  type: string;
+  type: 1 | -1;
 };
 
 type SaveToMyYpaParamType = {

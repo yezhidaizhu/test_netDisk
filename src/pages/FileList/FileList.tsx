@@ -14,12 +14,11 @@ import FilePath from './components/FilePath';
 import Search from './components/Search';
 import SearchInput from './components/SearchInput';
 import ShareModal from './components/ShareModal';
+import Toolbar from './components/Toolbar';
 import useQueryList from './hooks/req/useQueryList';
 import useDragUpload from './hooks/useDragUpload';
 import useFilePath from './store/useFilePath';
-import useSearch from './store/useSearch';
 import DataTable from './table';
-import Toolbar from './table/Toolbar';
 
 const boxId = 'fileListBox';
 function FileList() {
