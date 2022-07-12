@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-07-04 11:30:52
- * @ Modified time: 2022-07-04 11:31:52
+ * @ Modified time: 2022-07-11 16:39:23
  * @ Description:  与 electron 通信
  */
 import { useRef } from 'react';
@@ -9,7 +9,9 @@ import { IpcEventType } from './types';
 
 export default function useIPC() {
   if (!window?.electron) {
-    console.error('<useIPC> : window.electron undefined');
+    if (import.meta.env.DEV) {
+      console.error('<useIPC> : window.electron undefined');
+    }
   }
 
   const sendMessage = useRef(window?.electron?.ipcRenderer?.sendMessage);
