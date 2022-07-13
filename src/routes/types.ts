@@ -8,6 +8,7 @@ enum Pages {
   Transfer,
   Share,
   MineShare,
+  MyShare,
   Page1,
   Page2,
   Page3,

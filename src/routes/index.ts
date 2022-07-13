@@ -35,6 +35,12 @@ const routes: Routes = {
     title: '我的分享',
     icon: Reply,
   },
+  [Pages.MyShare]: {
+    component: asyncComponentLoader(() => import('@/pages/MyShare')),
+    path: '/MyShare',
+    title: '我的分享',
+    icon: Reply,
+  },
   [Pages.Page1]: {
     component: asyncComponentLoader(() => import('@/pages/Page1')),
     path: '/page-1',

@@ -45,6 +45,11 @@ const shareList = [
     Icon: Reply,
     path: routes[Pages.MineShare].path,
   },
+  {
+    label: '_我的分享',
+    Icon: Reply,
+    path: routes[Pages.MyShare].path,
+  },
 ];
 
 const otherList = [
