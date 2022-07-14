@@ -1,12 +1,13 @@
 /**
  * @ Create Time: 2022-07-12 15:38:33
- * @ Modified time: 2022-07-13 17:39:26
+ * @ Modified time: 2022-07-14 14:43:16
  * @ Description:  数据头部
  */
 import { memo, useCallback, useMemo } from 'react';
 
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 
+import TableCellCheckbox from './components/TableCellCheckbox';
 import useColumns from './hooks/useColumns';
 import useDataIdField from './hooks/useDataIdField';
 import useDataIdSelected from './hooks/useDataIdSelected';
@@ -40,14 +41,7 @@ function DTHeader(props: { data?: TableData[] }) {
   return (
     <TableHead>
       <TableRow>
-        <TableCellCheckbox>
-          <Checkbox
-            color="primary"
-            indeterminate={indeterminate}
-            checked={isSelAll}
-            onClick={onSelAll}
-          />
-        </TableCellCheckbox>
+        <TableCellCheckbox indeterminate={indeterminate} checked={isSelAll} onClick={onSelAll} />
 
         {columns.map((headCell, index) => {
           const { width, headerName, hidden } = headCell;
@@ -67,14 +61,3 @@ function DTHeader(props: { data?: TableData[] }) {
 }
 
 export default memo(DTHeader);
-
-export const TableCellCheckbox = memo(_TableCellCheckbox);
-
-// 统一 开始的 checkbox
-function _TableCellCheckbox(props: { children: any }) {
-  return (
-    <TableCell padding="none" width={10}>
-      {props.children}
-    </TableCell>
-  );
-}

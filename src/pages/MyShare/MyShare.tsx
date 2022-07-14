@@ -1,49 +1,60 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Chip } from '@mui/material';
 import { Box } from '@mui/system';
 
 import Meta from '@/components/Meta';
 import DataTable from '@/components/Table';
-import { toolbarHeight } from '@/pages/FileList/components/Toolbar';
+import Toolbar, { toolbarHeight } from '@/pages/FileList/components/Toolbar';
+import routes from '@/routes';
+import { Pages } from '@/routes/types';
 import { fsize } from '@/utils/helper';
 
 import { FileName } from '../FileList/table/TBody';
 import ShareFilePath from './components/ShareFilePath';
+import useMyShareContextMenu from './hooks/useMyShareContextMenu';
 import useShareTable from './hooks/useShareTable';
 
-const title = '我的分享';
+const title = routes[Pages.MyShare].title;
+
 export default function MineShare() {
   const {
     shareFileList,
-    menuItems,
+    isRootPath,
     loading,
     shareFilePath,
-    addFilePath,
+    refreshRoot,
+    onRowDbClick,
     arrivePath,
-    getFileDataById,
+    getFileDataByIds,
   } = useShareTable({ type: 3, rootPath });
 
-  const isRootPath = useMemo(() => {
-    return shareFilePath.length === 1;
-  }, [shareFilePath]);
+  const { menuItems } = useMyShareContextMenu({
+    getFileDataByIds,
+    refreshRoot,
+    shareFileList,
+    isRootPath,
+  });
+
+  const [numSelected, setNumSelected] = useState(0);
 
   const headerCells = useMemo(() => {
     if (isRootPath) {
-      return columns;
+      const newColumns = [...shareColumns];
+      newColumns.splice(1, 0, shareTo);
+      return newColumns;
     } else {
-      return columns.filter((cell) => cell.field !== 'shareTo');
+      return shareColumns;
     }
   }, [isRootPath]);
 
-  const onRowDbClick = (dataId: any) => {
-    const curFile = getFileDataById(dataId);
-    if (!curFile) return;
-
-    if (curFile.isFolder) {
-      addFilePath(curFile);
-    }
+  const onSelectedChange = (ids: any[]) => {
+    setNumSelected(ids.length);
   };
+
+  const emptyLabel = useMemo(() => {
+    return isRootPath ? '暂无分享记录' : '文件为空';
+  }, [isRootPath]);
 
   return (
     <>
@@ -56,13 +67,20 @@ export default function MineShare() {
         >
           <div className="flex-1 overflow-auto select-none">
             <DataTable
+              checkable
+              showCheckbox
               loading={loading}
               columns={headerCells}
               rows={shareFileList}
               contextMenu={menuItems}
+              emptyLabel={emptyLabel}
               onRowDbClick={onRowDbClick}
+              onSelectedChange={onSelectedChange}
+              className="max-h-full  pr-8"
             />
           </div>
+
+          <Toolbar rowCount={shareFileList.length} numSelected={numSelected} />
         </Box>
       </Box>
     </>
@@ -71,31 +89,33 @@ export default function MineShare() {
 
 const rootPath = {
   id: 0,
-  label: '我的分享',
+  label: title + '',
 };
 
-const columns = [
+// 分享对象
+const shareTo: any = {
+  field: 'shareFrom',
+  headerName: '分享对象',
+  width: 250,
+  render: (shareFrom: string) => {
+    const shareToperson = shareFrom?.split(',') || [];
+    return (
+      <div className="flex flex-wrap place-self-start gap-1">
+        {shareToperson.map((person, index) => (
+          <Chip key={index} size="small" label={person} />
+        ))}
+      </div>
+    );
+  },
+};
+
+export const shareColumns = [
   {
     field: 'fileName',
     headerName: '文件名',
     render: (fileName: string, rowData: ShareFileInfo) => {
       const { thumb } = rowData;
       return <FileName name={fileName} thumb={thumb} />;
-    },
-  },
-  {
-    field: 'shareFrom',
-    headerName: '分享对象',
-    width: 250,
-    render: (shareFrom: string) => {
-      const shareToperson = shareFrom?.split(',') || [];
-      return (
-        <div className="flex flex-wrap place-self-start gap-1">
-          {shareToperson.map((person, index) => (
-            <Chip key={index} size="small" label={person} />
-          ))}
-        </div>
-      );
     },
   },
   {
@@ -108,7 +128,7 @@ const columns = [
     headerName: '文件大小',
     width: 150,
     render: (value: any, rowData: ShareFileInfo) => {
-      const isFolder = rowData.isFolder;
+      const { isFolder } = rowData;
       const size = !isFolder ? fsize(value) : '';
       return size;
     },

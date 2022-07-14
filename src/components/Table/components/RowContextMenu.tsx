@@ -1,8 +1,10 @@
 /**
  * @ Create Time: 2022-07-12 17:39:21
- * @ Modified time: 2022-07-13 17:07:37
+ * @ Modified time: 2022-07-14 15:54:03
  * @ Description:  右键菜单
  */
+import { useMemo } from 'react';
+
 import { ControlledMenu, MenuDivider, MenuItem } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/theme-dark.css';
@@ -18,35 +20,39 @@ export default function RowContextMenu(props: { contextMenu?: ContextMenuItem[] 
   const { mode } = useThemeMode();
   const { anchorPoint, menuProps, toggleMenu, tempData } = useContextMenu();
 
-  return (
-    <ControlledMenu
-      {...menuProps}
-      anchorPoint={anchorPoint}
-      theming={mode}
-      onClose={() => toggleMenu(false)}
-    >
-      {contextMenu.map((menuItem: ContextMenuItem, index) => {
-        const { label, onClick, children, Icon, divider } = menuItem;
+  const className = !contextMenu.length ? 'h-0 opacity-0 w-0' : '';
 
-        if (divider) return <MenuDivider key={index} />;
-        return (
-          <MenuItem
-            key={index}
-            onClick={() => {
-              onClick?.(tempData);
-            }}
-          >
-            {children ? (
-              children
-            ) : (
-              <div className="flex gap-2">
-                {Icon && <Icon fontSize="small" />}
-                {label}
-              </div>
-            )}
-          </MenuItem>
-        );
-      })}
-    </ControlledMenu>
+  return (
+    <div className={className}>
+      <ControlledMenu
+        {...menuProps}
+        anchorPoint={anchorPoint}
+        theming={mode}
+        onClose={() => toggleMenu(false)}
+      >
+        {contextMenu.map((menuItem: ContextMenuItem, index) => {
+          const { label, onClick, children, Icon, divider } = menuItem;
+
+          if (divider) return <MenuDivider key={index} />;
+          return (
+            <MenuItem
+              key={index}
+              onClick={() => {
+                onClick?.(tempData);
+              }}
+            >
+              {children ? (
+                children
+              ) : (
+                <div className="flex gap-3">
+                  {Icon && <Icon fontSize="small" />}
+                  {label}
+                </div>
+              )}
+            </MenuItem>
+          );
+        })}
+      </ControlledMenu>
+    </div>
   );
 }

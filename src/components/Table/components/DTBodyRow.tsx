@@ -1,15 +1,15 @@
 /**
  * @ Create Time: 2022-07-13 10:15:26
- * @ Modified time: 2022-07-13 17:49:48
+ * @ Modified time: 2022-07-14 14:46:45
  * @ Description:  数据行
  */
 import { memo, useCallback, useMemo } from 'react';
 
 import { Checkbox, TableCell, TableRow } from '@mui/material';
 
-import { TableCellCheckbox } from '../DTHeader';
 import useColumns from '../hooks/useColumns';
 import useDataIdSelected from '../hooks/useDataIdSelected';
+import TableCellCheckbox from './TableCellCheckbox';
 
 export const dtBodyRowId = '_wx_dt_body_row';
 function DTBodyRow(props: {
@@ -57,9 +57,7 @@ function DTBodyRow(props: {
       onClick={_onClickRow}
       onDoubleClick={_onDoubleClickRow}
     >
-      <TableCellCheckbox>
-        <Checkbox checked={isSelected} onClick={onClickCheckBox} />
-      </TableCellCheckbox>
+      <TableCellCheckbox checked={isSelected} onClick={onClickCheckBox} />
 
       {columns.map((headCell) => {
         const { field, hidden, render } = headCell;

@@ -1,6 +1,6 @@
 /**
  * @ Create Time: 2022-07-13 11:50:10
- * @ Modified time: 2022-07-13 18:18:36
+ * @ Modified time: 2022-07-14 14:26:34
  * @ Description: 行数据处理
  */
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -20,8 +20,8 @@ export default function useDTBody(opts: {
   const { data: dataList = [], onRowClick, onRowDbClick } = opts;
 
   const dataIdField = useDataIdField();
-  const { setAnchorPoint, toggleMenu, setTempData } = useContextMenu();
-  const { dataIdSelected, addDataId, rmDataId, uqDataId } = useDataIdSelected();
+  const { setAnchorPoint, toggleMenu, setTempData, onBeforeOpenContextMenu } = useContextMenu();
+  const { dataIdSelected, checkable, addDataId, rmDataId, uqDataId } = useDataIdSelected();
 
   const ctrlKeyIsDown = useKeyIsDown('ctrl');
   const shiftKeyIsDown = useKeyIsDown('shift');
@@ -35,7 +35,7 @@ export default function useDTBody(opts: {
 
   const onClickRow = useCallback(
     (event: any, dataId: DataIdType, dataIndex: number) => {
-      if (shiftKeyIsDown) {
+      if (shiftKeyIsDown && checkable) {
         // 按下 shift
         const clickWithoutShiftFileIndex = dataList.findIndex(
           (d) => d[dataIdField] === clickWithoutShiftId,
@@ -65,7 +65,7 @@ export default function useDTBody(opts: {
 
           setSeriesId(_seriesId);
         }
-      } else if (ctrlKeyIsDown) {
+      } else if (ctrlKeyIsDown && checkable) {
         // 按下 ctrl
         addDataId([dataId]);
 
@@ -80,7 +80,15 @@ export default function useDTBody(opts: {
 
       onRowClick?.(dataId);
     },
-    [dataList, dataIdSelected, ctrlKeyIsDown, shiftKeyIsDown, seriesId, clickWithoutShiftId],
+    [
+      dataList,
+      dataIdSelected,
+      ctrlKeyIsDown,
+      shiftKeyIsDown,
+      seriesId,
+      clickWithoutShiftId,
+      checkable,
+    ],
   );
 
   const onRowDoubleClick = (event: any, dataId: DataIdType) => {
@@ -88,15 +96,12 @@ export default function useDTBody(opts: {
   };
 
   // 右键点击
-  const onContextMenu = (e: any) => {
+  const onContextMenu = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
     let targetId = getDataIdByNativeEvent(e.nativeEvent);
 
     if (!targetId) return;
-
-    setAnchorPoint({ x: e.clientX, y: e.clientY });
-    toggleMenu(true);
 
     if (idTypeIsNumber) {
       targetId = parseInt(targetId);
@@ -108,6 +113,11 @@ export default function useDTBody(opts: {
     };
 
     setTempData(data);
+    const disableOpenContext = await onBeforeOpenContextMenu?.(data);
+    if (!disableOpenContext) {
+      setAnchorPoint({ x: e.clientX, y: e.clientY });
+      toggleMenu(true);
+    }
   };
 
   const idTypeIsNumber = useMemo(() => {

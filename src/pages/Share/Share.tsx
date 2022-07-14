@@ -1,121 +1,120 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
+import { Chip } from '@mui/material';
 import { Box } from '@mui/system';
-import { useDemoData } from '@mui/x-data-grid-generator';
 
 import Meta from '@/components/Meta';
 import DataTable from '@/components/Table';
+import Toolbar, { toolbarHeight } from '@/pages/FileList/components/Toolbar';
+import routes from '@/routes';
+import { Pages } from '@/routes/types';
 
-import { toolbarHeight } from '../FileList/components/Toolbar';
-import Title from '../MineShare/component/Title';
-import useShareTable from '../MineShare/hooks/useShareTable';
-import ShareTable from '../MineShare/table';
+import { shareColumns } from '../MyShare/MyShare';
+import ShareFilePath from '../MyShare/components/ShareFilePath';
+import useShareTable from '../MyShare/hooks/useShareTable';
+import useMyShareContextMenu from './hooks/useMyShareContextMenu';
 
-const _headerCells: ShareTheadCellType[] = [
-  {
-    id: 'fileName',
-    label: '文件名',
-  },
-  {
-    id: 'shareBy',
-    label: '分享人',
-    width: 250,
-  },
-  {
-    id: 'modifyTime',
-    label: '分享时间',
-    width: 200,
-  },
-  {
-    id: 'fileSize',
-    label: '文件大小',
-    width: 150,
-  },
-];
+const title = routes[Pages.Share].title;
 
-const rootPath = {
-  id: 0,
-  label: '分享',
-};
-
-const title = '查看分享';
 export default function Share() {
-  const { shareFileList, menuItems, loading, shareFilePath, addFilePath, arrivePath } =
-    useShareTable({
-      type: 2,
-      rootPath,
-    });
+  const {
+    shareFileList,
+    isRootPath,
+    loading,
+    shareFilePath,
+    refreshRoot,
+    onRowDbClick,
+    arrivePath,
+    getFileDataByIds,
+    getFileDataById,
+  } = useShareTable({ type: 2, rootPath });
 
-  const isRootPath = useMemo(() => {
-    return shareFilePath.length === 1;
-  }, [shareFilePath]);
+  const { menuItems } = useMyShareContextMenu({
+    getFileDataByIds,
+    refreshRoot,
+    shareFileList,
+    isRootPath,
+  });
 
-  const headerCells: ShareTheadCellType[] = useMemo(() => {
+  const [numSelected, setNumSelected] = useState(0);
+
+  const headerCells = useMemo(() => {
     if (isRootPath) {
-      return _headerCells;
+      const newColumns = [...shareColumns];
+      newColumns.splice(1, 0, shareTo);
+      return newColumns;
     } else {
-      return _headerCells.filter((cell) => cell.id !== 'shareBy');
+      return shareColumns;
     }
   }, [isRootPath]);
 
-  const { data } = useDemoData({
-    dataSet: 'Commodity',
-    rowLength: 100,
-    maxColumns: 6,
-  });
+  const onSelectedChange = (ids: any[]) => {
+    setNumSelected(ids.length);
+  };
 
-  const rows = useMemo(() => {
-    return data.rows;
-  }, [data]);
+  const onBeforeOpenContextMenu = (data: any) => {
+    const { id } = data;
+    const curFile = getFileDataById(id);
+
+    const isFolder = curFile?.isFolder;
+
+    const disabelOpenContextMenu = !!(isFolder && isRootPath);
+    // 阻止弹窗
+    return disabelOpenContextMenu;
+  };
+
+  const emptyLabel = useMemo(() => {
+    return isRootPath ? '暂无分享记录' : '文件为空';
+  }, [isRootPath]);
 
   return (
     <>
       <Meta title={title} />
       <Box className="flex flex-col h-screen relative overflow-hidden pl-16 pb-2 ">
-        <Title paths={shareFilePath} arrivePath={arrivePath} />
+        <ShareFilePath paths={shareFilePath} arrivePath={arrivePath} />
         <Box
           className="flex-1 flex flex-col overflow-hidden"
           style={{ paddingBottom: toolbarHeight + 1 }}
         >
-          {/* <ShareTable
-            shareFileList={shareFileList}
-            menuItems={menuItems}
-            loading={loading}
-            addFilePath={addFilePath}
-            isRootPath={isRootPath}
-            headerCells={headerCells}
-          /> */}
+          <div className="flex-1 overflow-auto select-none">
+            <DataTable
+              loading={loading}
+              columns={headerCells}
+              rows={shareFileList}
+              contextMenu={menuItems}
+              emptyLabel={emptyLabel}
+              onBeforeOpenContextMenu={onBeforeOpenContextMenu}
+              onRowDbClick={onRowDbClick}
+              onSelectedChange={onSelectedChange}
+              className="max-h-full  pr-8"
+            />
+          </div>
 
-          <DataTable columns={demoCols} rows={rows} />
+          <Toolbar rowCount={shareFileList.length} numSelected={numSelected} />
         </Box>
       </Box>
     </>
   );
 }
 
-const demoCols = [
-  {
-    id: 'fileName',
-    field: 'desk',
-    headerName: '文件名',
+const rootPath = {
+  id: 0,
+  label: title + '',
+};
+
+// 分享对象
+const shareTo: any = {
+  field: 'shareFrom',
+  headerName: '分享人',
+  width: 250,
+  render: (shareFrom: string) => {
+    const shareToperson = shareFrom?.split(',') || [];
+    return (
+      <div className="flex flex-wrap place-self-start gap-1">
+        {shareToperson.map((person, index) => (
+          <Chip key={index} size="small" label={person} />
+        ))}
+      </div>
+    );
   },
-  {
-    id: 'shareBy',
-    field: 'traderEmail',
-    headerName: '分享人',
-    width: 250,
-    hidden: true,
-  },
-  {
-    id: 'modifyTime',
-    field: 'commodity',
-    headerName: '分享时间',
-    width: 200,
-  },
-  {
-    id: 'fileSize',
-    field: 'traderName',
-    headerName: '文件大小',
-    width: 150,
-  },
-];
+};
