@@ -5,9 +5,9 @@ import type { SvgIconProps } from '@mui/material/SvgIcon';
 
 enum Pages {
   FileList,
+  FileListX,
   Transfer,
   Share,
-  MineShare,
   MyShare,
   Page1,
   Page2,
@@ -17,7 +17,7 @@ enum Pages {
 }
 
 type PathRouteCustomProps = {
-  title?: string;
+  title: string;
   component: FC;
   icon?: FC<SvgIconProps>;
 };

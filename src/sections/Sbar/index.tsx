@@ -23,12 +23,17 @@ export const drawerWidth = 240;
 
 const netDiskList = [
   {
-    label: '云盘',
+    label: routes[Pages.FileList].title,
     Icon: Save,
     path: routes[Pages.FileList].path,
   },
   {
-    label: '文件传输',
+    label: routes[Pages.FileListX].title,
+    Icon: Save,
+    path: routes[Pages.FileListX].path,
+  },
+  {
+    label: routes[Pages.Transfer].title,
     Icon: CompareArrows,
     path: routes[Pages.Transfer].path,
   },
@@ -36,17 +41,12 @@ const netDiskList = [
 
 const shareList = [
   {
-    label: '查看分享',
+    label: routes[Pages.Share].title,
     Icon: Share,
     path: routes[Pages.Share].path,
   },
   {
-    label: '我的分享',
-    Icon: Reply,
-    path: routes[Pages.MineShare].path,
-  },
-  {
-    label: '_我的分享',
+    label: routes[Pages.MyShare].title,
     Icon: Reply,
     path: routes[Pages.MyShare].path,
   },
@@ -54,7 +54,7 @@ const shareList = [
 
 const otherList = [
   {
-    label: '设置',
+    label: routes[Pages.Page3].title,
     Icon: Settings,
     path: routes[Pages.Page3].path,
   },

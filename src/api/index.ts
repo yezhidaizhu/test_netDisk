@@ -12,7 +12,7 @@ export {
   shareDetail,
   saveToMyYpa,
   cancelShare,
-  getYpsId, // eap 用户信息
+  getYpsId,
 } from './service';
 
 export { queryMe } from './user';

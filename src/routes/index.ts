@@ -17,6 +17,12 @@ const routes: Routes = {
     title: '云盘',
     icon: HomeIcon,
   },
+  [Pages.FileListX]: {
+    component: asyncComponentLoader(() => import('@/pages/FileListX')),
+    path: '/fileListX',
+    title: '云盘X',
+    icon: HomeIcon,
+  },
   [Pages.Transfer]: {
     component: asyncComponentLoader(() => import('@/pages/Transfer')),
     path: '/transfer',
@@ -28,12 +34,6 @@ const routes: Routes = {
     path: '/Share',
     title: '查看分享',
     icon: Share,
-  },
-  [Pages.MineShare]: {
-    component: asyncComponentLoader(() => import('@/pages/MineShare')),
-    path: '/MineShare',
-    title: '我的分享',
-    icon: Reply,
   },
   [Pages.MyShare]: {
     component: asyncComponentLoader(() => import('@/pages/MyShare')),
@@ -68,6 +68,7 @@ const routes: Routes = {
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',
+    title: '404',
   },
 };
 
